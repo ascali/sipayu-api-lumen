@@ -27,14 +27,22 @@ class EbrosureController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'image' => 'required',
+            'efective' => 'required',
+            'expired' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         $is_data = new Ebrosure();
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
         $is_data->description = $request->input('description');
+        $is_data->image = $request->input('image');
+        $is_data->efective = $request->input('efective');
+        $is_data->expired = $request->input('expired');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(
