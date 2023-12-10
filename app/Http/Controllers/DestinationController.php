@@ -26,15 +26,25 @@ class DestinationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
+            'id_toi' => 'required',
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'contact' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         $is_data = new Destination();
+        $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
+        $is_data->location = $request->input('location');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -59,15 +69,25 @@ class DestinationController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
+            'id_toi' => 'required',
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'contact' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         $is_data = Destination::find($id);
+        $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
+        $is_data->location = $request->input('location');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(

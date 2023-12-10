@@ -26,15 +26,19 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'id_rating' => 'required',
+            'review' => 'required',
+            'image' => 'required',
         ]);
 
         $is_data = new Review();
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request-input('id_user');
+        $is_data->id_destination = $request-input('id_destination');
+        $is_data->id_rating = $request-input('id_rating');
+        $is_data->review = $request-input('review');
+        $is_data->image = $request-input('image');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -59,15 +63,19 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'id_rating' => 'required',
+            'review' => 'required',
+            'image' => 'required',
         ]);
 
         $is_data = Review::find($id);
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request-input('id_user');
+        $is_data->id_destination = $request-input('id_destination');
+        $is_data->id_rating = $request-input('id_rating');
+        $is_data->review = $request-input('review');
+        $is_data->image = $request-input('image');
         $is_data->save();
 
         return $this->jsonResponse(

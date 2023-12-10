@@ -26,15 +26,15 @@ class RatingController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'rating' => 'required'
         ]);
 
         $is_data = new Rating();
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request->input('id_user');
+        $is_data->id_destination = $request->input('id_destination');
+        $is_data->rating = $request->input('rating');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -59,15 +59,15 @@ class RatingController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'rating' => 'required'
         ]);
 
         $is_data = Rating::find($id);
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request->input('id_user');
+        $is_data->id_destination = $request->input('id_destination');
+        $is_data->rating = $request->input('rating');
         $is_data->save();
 
         return $this->jsonResponse(

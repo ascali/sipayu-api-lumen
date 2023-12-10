@@ -27,14 +27,22 @@ class EventController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'date_event' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         $is_data = new Event();
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->date_event = $request->input('date_event');
         $is_data->description = $request->input('description');
+        $is_data->location = $request->input('location');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -60,14 +68,22 @@ class EventController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'date_event' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         $is_data = Event::find($id);
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->date_event = $request->input('date_event');
         $is_data->description = $request->input('description');
+        $is_data->location = $request->input('location');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(

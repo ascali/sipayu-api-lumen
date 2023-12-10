@@ -27,14 +27,21 @@ class AdvertismentController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'url' => 'required',
+            'efective' => 'required',
+            'expired' => 'required',
         ]);
 
         $is_data = new Advertisment();
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
+        $is_data->efective = $request->input('efective');
+        $is_data->expired = $request->input('expired');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -60,14 +67,21 @@ class AdvertismentController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'image' => 'required',
+            'url' => 'required',
+            'efective' => 'required',
+            'expired' => 'required',
         ]);
 
         $is_data = Advertisment::find($id);
         $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
+        $is_data->image = $request->input('image');
+        $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
+        $is_data->efective = $request->input('efective');
+        $is_data->expired = $request->input('expired');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
         $is_data->save();
 
         return $this->jsonResponse(
