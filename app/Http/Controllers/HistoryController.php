@@ -26,15 +26,15 @@ class HistoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'visited_date' => 'required'
         ]);
 
         $is_data = new History();
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request->input('id_user');
+        $is_data->id_destination = $request->input('id_destination');
+        $is_data->visited_date = $request->input('visited_date');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -59,15 +59,15 @@ class HistoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name' => 'required',
-            'status' => 'required',
-            'description' => 'required'
+            'id_user' => 'required',
+            'id_destination' => 'required',
+            'visited_date' => 'required'
         ]);
 
         $is_data = History::find($id);
-        $is_data->name = $request->input('name');
-        $is_data->status = $request->input('status');
-        $is_data->description = $request->input('description');
+        $is_data->id_user = $request->input('id_user');
+        $is_data->id_destination = $request->input('id_destination');
+        $is_data->visited_date = $request->input('visited_date');
         $is_data->save();
 
         return $this->jsonResponse(
