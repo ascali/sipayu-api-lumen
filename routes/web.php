@@ -14,7 +14,11 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json([
+            "status"=> true,
+            "message"=> 'Welcome to SIPAYU Services!',
+            "data"=> []
+        ], 200);
 });
 
 $router->get('/key', function() {
