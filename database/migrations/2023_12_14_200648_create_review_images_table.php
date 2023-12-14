@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('review_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_user');
             $table->bigInteger('id_destination');
-            $table->bigInteger('id_rating');
-            $table->bigInteger('id_review_image')->nullable();
-            $table->longText('review')->nullable();
             $table->longText('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('review_images');
     }
 };

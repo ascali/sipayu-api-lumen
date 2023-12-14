@@ -16,21 +16,21 @@ class UsersSeeder extends Seeder
     {
         User::create([
             'id_role' => 1,
-            'name' => 'Ascaliko SU',
-            'email' => 'ascaliko7@gmail.com',
+            'name' => 'Super User SIPAYU',
+            'email' => 'su.siayu@yopmail.com',
             'password' => Hash::make('password1'),
         ]);
         User::create([
             'id_role' => 2,
-            'name' => 'Ascaliko Admin', 
-            'email' => 'ascaliko7@yopmail.com',
-            'password' => Hash::make('password12')
+            'name' => 'Admin SIPAYU', 
+            'email' => 'admin.sipayu@yopmail.com',
+            'password' => Hash::make('password2')
         ]);
         User::create([
             'id_role' => 3,
             'name' => 'Alan Walker', 
             'email' => 'alanwalker@yopmail.com',
-            'password' => Hash::make('password123')
+            'password' => Hash::make('password3')
         ]);
     }
 }
