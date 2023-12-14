@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Destination;
 
 class DestinationController extends Controller
@@ -15,6 +16,29 @@ class DestinationController extends Controller
     public function index()
     {
         $is_data = Destination::all();
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            200
+        );
+    }
+
+    public function list(Request $request)
+    {
+        $is_data = [];
+        if ($request->input('limit') > 0 ) {
+            $limit = $request->input('limit');
+            $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit);
+        }
+        if ($request->input('page')) {
+            $page = $request->input('page') != '' ? $request->input('page') : 1;
+            $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
+
+            // $is_data = Destination::orderBy('updated_at', 'desc')->paginate($page);
+            $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+
+        }
         return $this->jsonResponse(
             true,
             'Success',

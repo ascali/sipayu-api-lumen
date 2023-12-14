@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Review;
 
 class ReviewController extends Controller
@@ -15,6 +16,23 @@ class ReviewController extends Controller
     public function index()
     {
         $is_data = Review::all();
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            200
+        );
+    }
+
+    public function list(Request $request)
+    {
+        $id_destination = $request->input('id_destination');
+        $rating = DB::select("select AVG(r.rating) as rating  from ratings r where r.id_destination = ? limit 1;", [$id_destination]);
+        $reviews = Review::where('id_destination', $id_destination)->orderBy('updated_at', 'desc');
+        $is_data = [
+            'rating' => $rating,
+            'reviews' => $reviews,
+        ];
         return $this->jsonResponse(
             true,
             'Success',

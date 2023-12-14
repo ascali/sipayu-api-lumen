@@ -66,6 +66,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'destination'], function () use ($router) {
         $router->get('', 'DestinationController@index');
+        $router->get('/list', 'DestinationController@list');
         $router->get('/{id}', 'DestinationController@show');
         $router->post('/create', 'DestinationController@store');
         $router->post('/update/{id}', 'DestinationController@update');
@@ -90,6 +91,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'review'], function () use ($router) {
         $router->get('', 'ReviewController@index');
+        $router->get('/list', 'ReviewController@list');
         $router->get('/{id}', 'ReviewController@show');
         $router->post('/create', 'ReviewController@store');
         $router->post('/update/{id}', 'ReviewController@update');
