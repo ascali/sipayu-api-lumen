@@ -75,6 +75,7 @@ class AuthController extends Controller
             [
                 'user'         => [
                     "id" => auth()->user()->id,
+                    'id_role' => User::find(auth()->user()->id)->id_role,
                     "name" => auth()->user()->name,
                     "email" => auth()->user()->email,
                 ],
