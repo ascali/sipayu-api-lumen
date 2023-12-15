@@ -12,9 +12,20 @@ class EventController extends Controller
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $is_data = Event::all();
+        $is_data = [];
+        $page = $request->input('page') != '' ? $request->input('page') : 1;
+        $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
+        $year = $request->input('year');
+        $month = $request->input('month');
+        if ($request->input('month')!='' && $request->input('year')!='') {
+            $is_data = Event::whereYear('date_event', '=', $year)->whereMonth('date_event', '=', $month)->get()->toArray();
+        }
+        if ($request->input('page')!='' && $request->input('limit')!='') {
+            $is_data = Event::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+        }
+        // $is_data = Event::all();
         return $this->jsonResponse(
             true,
             'Success',

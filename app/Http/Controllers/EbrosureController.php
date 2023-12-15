@@ -12,9 +12,16 @@ class EbrosureController extends Controller
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $is_data = E_brosure::all();
+        $is_data = [];
+        $page = $request->input('page') != '' ? $request->input('page') : 1;
+        $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
+
+        if ($request->input('page')!='' && $request->input('limit')!='') {
+            $is_data = E_brosure::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+        }
+        // $is_data = E_brosure::all();
         return $this->jsonResponse(
             true,
             'Success',
