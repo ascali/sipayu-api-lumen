@@ -13,9 +13,24 @@ class DestinationController extends Controller
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $is_data = Destination::all();
+        $is_data = [];
+        $page = $request->input('page') != '' ? $request->input('page') : 1;
+        $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
+        $id_toi = $request->input('id_toi');
+
+        if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
+            $is_data = Destination::orderBy('id', 'desc')->where('id_toi', $id_toi)->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+            foreach ($is_data as $key => $value) {
+                $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
+                $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
+                $is_data[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
+                $is_data[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
+            }
+        } else {
+            $is_data = Destination::all();
+        }
         return $this->jsonResponse(
             true,
             'Success',
@@ -31,15 +46,21 @@ class DestinationController extends Controller
         $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
         $id_toi = $request->input('id_toi');
 
-        if ($request->input('limit')!='' ) {
-            $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit);
-        }
-        if ($request->input('page')!='' && $request->input('limit')!='') {
-            // $is_data = Destination::orderBy('updated_at', 'desc')->paginate($page);
-            $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        }
+        // if ($request->input('limit')!='' ) {
+        //     $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit);
+        // }
+        // if ($request->input('page')!='' && $request->input('limit')!='') {
+        //     // $is_data = Destination::orderBy('updated_at', 'desc')->paginate($page);
+        //     $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+        // }
         if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
             $is_data = Destination::orderBy('updated_at', 'desc')->where('id_toi', $id_toi)->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+            foreach ($is_data as $key => $value) {
+                $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
+                $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
+                $is_data[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
+                $is_data[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
+            }
         }
 
         return $this->jsonResponse(
@@ -85,6 +106,10 @@ class DestinationController extends Controller
     public function show($id)
     {
         $is_data = Destination::find($id);
+        $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$id]);
+        $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$id]);
+        $is_data['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
+        $is_data['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
         return $this->jsonResponse(
             true,
             'Success',
