@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ebrosure;
+use App\Models\E_brosure;
 
 class EbrosureController extends Controller
 {
@@ -14,7 +14,7 @@ class EbrosureController extends Controller
 
     public function index()
     {
-        $is_data = Ebrosure::all();
+        $is_data = E_brosure::all();
         return $this->jsonResponse(
             true,
             'Success',
@@ -55,7 +55,7 @@ class EbrosureController extends Controller
 
     public function show($id)
     {
-        $is_data = Ebrosure::find($id);
+        $is_data = E_brosure::find($id);
         return $this->jsonResponse(
             true,
             'Success',
@@ -76,7 +76,7 @@ class EbrosureController extends Controller
             'longitude' => 'required',
         ]);
 
-        $is_data = Ebrosure::find($id);
+        $is_data = E_brosure::find($id);
         $is_data->name = $request->input('name');
         $is_data->description = $request->input('description');
         $is_data->image = $request->input('image');
@@ -96,7 +96,7 @@ class EbrosureController extends Controller
 
     public function destroy($id)
     {
-        $is_data = Ebrosure::find($id);
+        $is_data = E_brosure::find($id);
         $is_data->delete();
         return $this->jsonResponse(
             true,

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('e_brosures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->longText('image');
+            $table->longText('image')->nullable();
             $table->text('description')->nullable();
             $table->datetime('efective')->nullable();
             $table->datetime('expired')->nullable();

@@ -12,9 +12,16 @@ class AdvertismentController extends Controller
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $is_data = Advertisment::all();
+        $is_data = [];
+        $page = $request->input('page') != '' ? $request->input('page') : 1;
+        $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
+
+        if ($request->input('page')!='' && $request->input('limit')!='') {
+            $is_data = Advertisment::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+        }
+        // $is_data = Advertisment::all();
         return $this->jsonResponse(
             true,
             'Success',
@@ -27,6 +34,7 @@ class AdvertismentController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
+            'type' => 'required',
             'image' => 'required',
             'url' => 'required',
             'efective' => 'required',
@@ -35,6 +43,7 @@ class AdvertismentController extends Controller
 
         $is_data = new Advertisment();
         $is_data->name = $request->input('name');
+        $is_data->type = $request->input('type');
         $is_data->image = $request->input('image');
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
@@ -67,6 +76,7 @@ class AdvertismentController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
+            'type' => 'required',
             'image' => 'required',
             'url' => 'required',
             'efective' => 'required',
@@ -75,6 +85,7 @@ class AdvertismentController extends Controller
 
         $is_data = Advertisment::find($id);
         $is_data->name = $request->input('name');
+        $is_data->type = $request->input('type');
         $is_data->image = $request->input('image');
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');

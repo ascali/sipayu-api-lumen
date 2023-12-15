@@ -27,18 +27,21 @@ class DestinationController extends Controller
     public function list(Request $request)
     {
         $is_data = [];
-        if ($request->input('limit') > 0 ) {
-            $limit = $request->input('limit');
+        $page = $request->input('page') != '' ? $request->input('page') : 1;
+        $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
+        $id_toi = $request->input('id_toi');
+
+        if ($request->input('limit')!='' ) {
             $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit);
         }
-        if ($request->input('page')) {
-            $page = $request->input('page') != '' ? $request->input('page') : 1;
-            $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
-
+        if ($request->input('page')!='' && $request->input('limit')!='') {
             // $is_data = Destination::orderBy('updated_at', 'desc')->paginate($page);
             $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-
         }
+        if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
+            $is_data = Destination::orderBy('updated_at', 'desc')->where('id_toi', $id_toi)->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+        }
+
         return $this->jsonResponse(
             true,
             'Success',

@@ -32,5 +32,13 @@ class UsersSeeder extends Seeder
             'email' => 'alanwalker@yopmail.com',
             'password' => Hash::make('password3')
         ]);
+        for ($i=0; $i < 5; $i++) { 
+            User::create([
+                'id_role' => 3,
+                'name' => 'Alan Walker no '.$i, 
+                'email' => 'alanwalker'.$i.'@yopmail.com',
+                'password' => Hash::make('password3')
+            ]);
+        }
     }
 }

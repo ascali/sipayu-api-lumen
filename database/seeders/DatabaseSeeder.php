@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(TypeOfInterestSeeder::class);
         $this->call(DestinationSeeder::class);
         $this->call(ReviewSeeder::class);
+        $this->call(AdsSeeder::class);
+        $this->call(EbrosureSeeder::class);
+        $this->call(EventSeeder::class);
+        
     }
 }

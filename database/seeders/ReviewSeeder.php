@@ -21,9 +21,14 @@ class ReviewSeeder extends Seeder
             'rating' => 4
         ]);
         Rating::create([
-            'id_user' => 2, 
+            'id_user' => 4, 
             'id_destination' => 1,
             'rating' => 5
+        ]);
+        Rating::create([
+            'id_user' => 5, 
+            'id_destination' => 1,
+            'rating' => 2
         ]);
         Review::create([
             'id_user' => 3,
@@ -34,9 +39,17 @@ class ReviewSeeder extends Seeder
             'image' => ''
         ]);
         Review::create([
-            'id_user' => 2,
+            'id_user' => 4,
             'id_destination' => 1,
             'id_rating' => 2,
+            'id_review_image' => null,
+            'review' => 'Bagus semua keren.',
+            'image' => ''
+        ]);
+        Review::create([
+            'id_user' => 5,
+            'id_destination' => 1,
+            'id_rating' => 3,
             'id_review_image' => null,
             'review' => 'Bagus semua keren.',
             'image' => ''

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('advertisments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->longText('image');
+            $table->string('type')->nullable();
+            $table->longText('image')->nullable();
             $table->longText('url')->nullable();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->datetime('efective')->nullable();
             $table->datetime('expired')->nullable();
             $table->string('latitude')->nullable();
