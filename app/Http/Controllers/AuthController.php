@@ -160,13 +160,13 @@ class AuthController extends Controller
             ->whereNull('users.deleted_at')
             ->where('roles.id', '!=', 1)
             ->where(function ($query) use ($request) {
-                $query->where('users.name', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.email', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.mobile_no', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.address', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.latitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.longitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
-                ->orWhere('users.created_at', 'like', '%'. strtolower($request->input('search.value')) .'%');
+                $query->where('users.name', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.email', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.mobile_no', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.address', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.latitude', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.longitude', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('users.created_at', 'like', '%'. $request->input('search.value') .'%');
             });
 
         $output['recordsTotal'] = $query->count();

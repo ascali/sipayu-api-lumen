@@ -50,6 +50,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'ads'], function () use ($router) {
         $router->get('', 'AdvertismentController@index');
+        $router->get('list_dt', 'AdvertismentController@list_dt');
         $router->get('/{id}', 'AdvertismentController@show');
         $router->post('/create', 'AdvertismentController@store');
         $router->post('/update/{id}', 'AdvertismentController@update');
