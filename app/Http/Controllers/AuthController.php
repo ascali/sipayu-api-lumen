@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -131,4 +132,68 @@ class AuthController extends Controller
             200
         );
     }
+
+    public function list(Request $request)
+    {
+        $orderby = $request->input('order.0.column');
+        $sort['col'] = $request->input('columns.' . $orderby . '.data');    
+        $sort['dir'] = $request->input('order.0.dir');
+
+        // User::select("users.*, r.name as role")
+        $query = DB::table('users')
+            ->join('roles', 'users.id_role', '=', 'roles.id')
+            ->select(
+                'users.name as users_name',
+                'users.email as users_email',
+                'users.mobile_no as users_mobile_no',
+                'users.address as users_address',
+                'users.latitude as users_latitude',
+                'users.longitude as users_longitude',
+                'users.created_at as users_created_at',
+                'roles.name as roles_name',
+            )
+            ->where('users.name', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.email', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.mobile_no', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.address', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.latitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.longitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ->orWhere('users.created_at', 'like', '%'. strtolower($request->input('search.value')) .'%')
+            ;
+
+        $output['recordsTotal'] = $query->count();
+
+        $output['data'] = $query
+                ->orderBy($sort['col'], $sort['dir'])
+                ->skip($request->input('start'))
+                ->take($request->input('length',10))
+                ->get();
+
+        $output['recordsFiltered'] = $output['recordsTotal'];
+
+        $output['draw'] = intval($request->input('draw'));
+
+        return $output;
+    }
+    
+    public function show(Request $request)
+    {
+
+    }
+
+    public function store(Request $request)
+    {
+
+    }
+
+    public function update(Request $request)
+    {
+
+    }
+
+    public function destroy(Request $request)
+    {
+
+    }
+
 }

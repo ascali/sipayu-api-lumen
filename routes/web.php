@@ -32,6 +32,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('refresh', 'AuthController@refresh');
     $router->get('me', 'AuthController@me');
 
+    $router->group(['prefix' => 'users'], function () use ($router) {
+        $router->get('list', 'AuthController@list');
+        $router->get('/{id}', 'AuthController@show');
+        $router->post('/create', 'AuthController@store');
+        $router->post('/update/{id}', 'AuthController@update');
+        $router->delete('/delete/{id}', 'AuthController@destroy');
+    });
+
     $router->group(['prefix' => 'roles'], function () use ($router) {
         $router->get('', 'RoleController@index');
         $router->get('/{id}', 'RoleController@show');
