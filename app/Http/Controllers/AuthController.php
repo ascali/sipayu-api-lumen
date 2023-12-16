@@ -67,7 +67,12 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return $this->jsonResponse(
+                false,
+                'Invalid credentials',
+                [],
+                401
+            );
         }
 
         return $this->jsonResponse(
@@ -139,10 +144,10 @@ class AuthController extends Controller
         $sort['col'] = $request->input('columns.' . $orderby . '.data');    
         $sort['dir'] = $request->input('order.0.dir');
 
-        // User::select("users.*, r.name as role")
         $query = DB::table('users')
             ->join('roles', 'users.id_role', '=', 'roles.id')
             ->select(
+                'users.id',
                 'users.name as users_name',
                 'users.email as users_email',
                 'users.mobile_no as users_mobile_no',
@@ -152,14 +157,17 @@ class AuthController extends Controller
                 'users.created_at as users_created_at',
                 'roles.name as roles_name',
             )
-            ->where('users.name', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.email', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.mobile_no', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.address', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.latitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.longitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ->orWhere('users.created_at', 'like', '%'. strtolower($request->input('search.value')) .'%')
-            ;
+            ->whereNull('users.deleted_at')
+            ->where('roles.id', '!=', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('users.name', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.email', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.mobile_no', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.address', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.latitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.longitude', 'like', '%'. strtolower($request->input('search.value')) .'%')
+                ->orWhere('users.created_at', 'like', '%'. strtolower($request->input('search.value')) .'%');
+            });
 
         $output['recordsTotal'] = $query->count();
 
@@ -176,24 +184,83 @@ class AuthController extends Controller
         return $output;
     }
     
-    public function show(Request $request)
-    {
-
-    }
-
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'required',
+            'id_role' => 'required',
+            'password' => 'required',
+            'email' => 'required'
+        ]);
 
+        $is_data = new User();
+        $is_data->name = $request->input('name');
+        $is_data->id_role = $request->input('id_role');
+        $is_data->email = $request->input('email');
+        $is_data->password = app('hash')->make($request->get('password'));
+        $is_data->mobile_no = $request->input('mobile_no');
+        $is_data->address = $request->input('address');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
+        $is_data->save();
+
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            201
+        );
     }
 
-    public function update(Request $request)
+    public function show($id)
     {
-
+        $is_data = User::find($id);
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            200
+        );
     }
 
-    public function destroy(Request $request)
+    public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'name' => 'required',
+            'id_role' => 'required',
+            // 'password' => 'required',
+            'email' => 'required'
+        ]);
 
+        $is_data = User::find($id);
+        $is_data->name = $request->input('name');
+        $is_data->id_role = $request->input('id_role');
+        $is_data->email = $request->input('email');
+        $is_data->password = app('hash')->make($request->get('password'));
+        $is_data->mobile_no = $request->input('mobile_no');
+        $is_data->address = $request->input('address');
+        $is_data->latitude = $request->input('latitude');
+        $is_data->longitude = $request->input('longitude');
+        $is_data->save();
+
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            200
+        );
+    }
+
+    public function destroy($id)
+    {
+        $is_data = User::find($id);
+        $is_data->delete();
+        return $this->jsonResponse(
+            true,
+            'User Deleted Successfully',
+            [],
+            200
+        );
     }
 
 }
