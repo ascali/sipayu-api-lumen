@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Event;
 
 class EventController extends Controller
@@ -34,6 +35,50 @@ class EventController extends Controller
         );
     }
 
+    public function list_dt(Request $request)
+    {
+        $orderby = $request->input('order.0.column');
+        $sort['col'] = $request->input('columns.' . $orderby . '.data');    
+        $sort['dir'] = $request->input('order.0.dir');
+
+        $query = DB::table('events')
+            ->select(
+                'events.id',
+                'events.name',
+                'events.image',
+                'events.date_event',
+                'events.description',
+                'events.location',
+                'events.latitude',
+                'events.longitude',
+                'events.created_at',
+            )
+            ->whereNull('events.deleted_at')
+            ->where(function ($query) use ($request) {
+                $query->where('events.name', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.image', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.date_event', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.description', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.location', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.latitude', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('events.longitude', 'like', '%'. $request->input('search.value') .'%');
+            });
+
+        $output['recordsTotal'] = $query->count();
+
+        $output['data'] = $query
+                ->orderBy($sort['col'], $sort['dir'])
+                ->skip($request->input('start'))
+                ->take($request->input('length',10))
+                ->get();
+
+        $output['recordsFiltered'] = $output['recordsTotal'];
+
+        $output['draw'] = intval($request->input('draw'));
+
+        return $output;
+    }
+
     public function store(Request $request)
     {
         $this->validate($request,[
@@ -41,9 +86,7 @@ class EventController extends Controller
             'image' => 'required',
             'date_event' => 'required',
             'description' => 'required',
-            'location' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
+            'location' => 'required'
         ]);
 
         $is_data = new Event();
@@ -83,8 +126,6 @@ class EventController extends Controller
             'date_event' => 'required',
             'description' => 'required',
             'location' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
         ]);
 
         $is_data = Event::find($id);
