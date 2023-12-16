@@ -71,6 +71,53 @@ class DestinationController extends Controller
         );
     }
 
+    public function list_dt(Request $request)
+    {
+        $orderby = $request->input('order.0.column');
+        $sort['col'] = $request->input('columns.' . $orderby . '.data');    
+        $sort['dir'] = $request->input('order.0.dir');
+
+        $query = DB::table('destinations')
+            ->join('type_of_interests', 'destinations.id_toi', '=', 'type_of_interests.id')
+            ->select(
+                'destinations.id',
+                'destinations.id_toi',
+                'destinations.name',
+                'type_of_interests.name as type_of_interests_name',
+                'destinations.image',
+                'destinations.contact',
+                'destinations.description',
+                'destinations.location',
+                'destinations.latitude',
+                'destinations.longitude',
+                'destinations.created_at',
+            )
+            ->whereNull('destinations.deleted_at')
+            ->where(function ($query) use ($request) {
+                $query->where('destinations.name', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.image', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.contact', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.description', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.location', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.latitude', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('destinations.longitude', 'like', '%'. $request->input('search.value') .'%');
+            });
+
+        $output['recordsTotal'] = $query->count();
+
+        $output['data'] = $query
+                ->orderBy($sort['col'], $sort['dir'])
+                ->skip($request->input('start'))
+                ->take($request->input('length',10))
+                ->get();
+
+        $output['recordsFiltered'] = $output['recordsTotal'];
+
+        $output['draw'] = intval($request->input('draw'));
+
+        return $output;
+    }
+
     public function store(Request $request)
     {
         $this->validate($request,[
