@@ -24,6 +24,17 @@ class TypeOfInterestController extends Controller
         );
     }
 
+    public function list(Request $request)
+    {
+        $is_data = Type_of_interest::all();
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
+            200
+        );
+    }
+
     public function list_dt(Request $request)
     {
         $orderby = $request->input('order.0.column');

@@ -54,7 +54,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'ads'], function () use ($router) {
         $router->get('', 'AdvertismentController@index');
-        $router->get('list_dt', 'AdvertismentController@list_dt');
+        $router->get('/list_dt', 'AdvertismentController@list_dt');
         $router->get('/{id}', 'AdvertismentController@show');
         $router->post('/create', 'AdvertismentController@store');
         $router->post('/update/{id}', 'AdvertismentController@update');
@@ -63,7 +63,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'ebrosure'], function () use ($router) {
         $router->get('', 'EbrosureController@index');
-        $router->get('list_dt', 'EbrosureController@list_dt');
+        $router->get('/list_dt', 'EbrosureController@list_dt');
         $router->get('/{id}', 'EbrosureController@show');
         $router->post('/create', 'EbrosureController@store');
         $router->post('/update/{id}', 'EbrosureController@update');
@@ -72,7 +72,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'type_of_interest'], function () use ($router) {
         $router->get('', 'TypeOfInterestController@index');
-        $router->get('list_dt', 'TypeOfInterestController@list_dt');
+        $router->get('/list', 'TypeOfInterestController@list');
+        $router->get('/list_dt', 'TypeOfInterestController@list_dt');
         $router->get('/{id}', 'TypeOfInterestController@show');
         $router->post('/create', 'TypeOfInterestController@store');
         $router->post('/update/{id}', 'TypeOfInterestController@update');
@@ -81,7 +82,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'destination'], function () use ($router) {
         $router->get('', 'DestinationController@index');
-        $router->get('list_dt', 'DestinationController@list_dt');
+        $router->get('/list_dt', 'DestinationController@list_dt');
         $router->get('/list', 'DestinationController@list');
         $router->get('/{id}', 'DestinationController@show');
         $router->post('/create', 'DestinationController@store');
@@ -91,7 +92,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'event'], function () use ($router) {
         $router->get('', 'EventController@index');
-        $router->get('list_dt', 'EventController@list_dt');
+        $router->get('/list_dt', 'EventController@list_dt');
         $router->get('/{id}', 'EventController@show');
         $router->post('/create', 'EventController@store');
         $router->post('/update/{id}', 'EventController@update');
