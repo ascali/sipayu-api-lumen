@@ -25,6 +25,8 @@ $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
 
+$router->get('send_email' ,'Mailcontroller@mail');
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
