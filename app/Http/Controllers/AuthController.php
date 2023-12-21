@@ -155,6 +155,7 @@ class AuthController extends Controller
                 'users.latitude as users_latitude',
                 'users.longitude as users_longitude',
                 'users.created_at as users_created_at',
+                'users.image as users_image',
                 'roles.name as roles_name',
             )
             ->whereNull('users.deleted_at')
@@ -202,6 +203,7 @@ class AuthController extends Controller
         $is_data->address = $request->input('address');
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
+        $is_data->image = $request->input('image');
         $is_data->save();
 
         return $this->jsonResponse(
@@ -232,6 +234,18 @@ class AuthController extends Controller
             'email' => 'required'
         ]);
 
+        $output_file = "/public/storage";
+        $base64_string = $request->input('image');
+        $splited = explode(',', substr( $base64_string , 5 ) , 2);
+        $mime = $splited[0];
+        $mime_split_without_base64=explode(';', $mime,2);
+        $mime_split=explode('/', $mime_split_without_base64[0],2);
+
+        $file_type = $mime_split[1];
+        $is_file = "/".date("YmdHis").".".$file_type;
+
+        file_put_contents(public_path('storage') . $is_file, file_get_contents($base64_string));
+
         $is_data = User::find($id);
         $is_data->name = $request->input('name');
         $is_data->id_role = $request->input('id_role');
@@ -241,6 +255,7 @@ class AuthController extends Controller
         $is_data->address = $request->input('address');
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
+        $is_data->image = $request->input('image'); //$output_file . $is_file; 
         $is_data->save();
 
         return $this->jsonResponse(

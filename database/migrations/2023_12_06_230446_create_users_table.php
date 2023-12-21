@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->longText('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
