@@ -21,7 +21,12 @@ class DestinationController extends Controller
         $id_toi = $request->input('id_toi');
 
         if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
-            $is_data = Destination::orderBy('id', 'desc')->where('id_toi', $id_toi)->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+            $is_data = Destination::orderBy('id', 'desc')
+                ->where('id_toi', $id_toi)
+                ->orWhere('name', 'like', '%'. $request->input('search') .'%')
+                ->limit($limit)
+                ->offset(($page - 1) * $limit)
+                ->get()->toArray();
             foreach ($is_data as $key => $value) {
                 $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
                 $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
@@ -54,7 +59,12 @@ class DestinationController extends Controller
         //     $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
         // }
         if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
-            $is_data = Destination::orderBy('updated_at', 'desc')->where('id_toi', $id_toi)->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
+            $is_data = Destination::orderBy('updated_at', 'desc')
+                ->where('id_toi', $id_toi)
+                ->orWhere('name', 'like', '%'. $request->input('search') .'%')
+                ->limit($limit)
+                ->offset(($page - 1) * $limit)
+                ->get()->toArray();
             foreach ($is_data as $key => $value) {
                 $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
                 $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
@@ -134,7 +144,7 @@ class DestinationController extends Controller
         $is_data = new Destination();
         $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');
@@ -181,7 +191,7 @@ class DestinationController extends Controller
         $is_data = Destination::find($id);
         $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');

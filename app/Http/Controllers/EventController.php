@@ -91,7 +91,7 @@ class EventController extends Controller
 
         $is_data = new Event();
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->date_event = $request->input('date_event');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');
@@ -130,7 +130,7 @@ class EventController extends Controller
 
         $is_data = Event::find($id);
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->date_event = $request->input('date_event');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');

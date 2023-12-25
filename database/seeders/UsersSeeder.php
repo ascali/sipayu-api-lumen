@@ -22,8 +22,8 @@ class UsersSeeder extends Seeder
         ]);
         User::create([
             'id_role' => 2,
-            'name' => 'Admin SIPAYU', 
-            'email' => 'admin.sipayu@yopmail.com',
+            'name' => 'Admin SIPAYU - DISPARA', 
+            'email' => 'disparaindramayu@gmail.com',
             'password' => Hash::make('password2')
         ]);
         User::create([

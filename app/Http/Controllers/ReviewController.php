@@ -77,7 +77,7 @@ class ReviewController extends Controller
         $is_data->id_destination = $request->input('id_destination');
         $is_data->id_rating = $id_rating;
         $is_data->review = $request->input('review');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->save();
 
         return $this->jsonResponse(
@@ -114,7 +114,7 @@ class ReviewController extends Controller
         $is_data->id_destination = $request->input('id_destination');
         // $is_data->id_rating = $request->input('id_rating');
         $is_data->review = $request->input('review');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->save();
 
         return $this->jsonResponse(

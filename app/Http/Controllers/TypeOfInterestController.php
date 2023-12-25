@@ -81,7 +81,7 @@ class TypeOfInterestController extends Controller
 
         $is_data = new Type_of_interest();
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->description = $request->input('description');
         $is_data->save();
 
@@ -114,7 +114,7 @@ class TypeOfInterestController extends Controller
 
         $is_data = Type_of_interest::find($id);
         $is_data->name = $request->input('name');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->description = $request->input('description');
         $is_data->save();
 

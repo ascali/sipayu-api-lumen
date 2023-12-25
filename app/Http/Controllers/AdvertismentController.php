@@ -107,7 +107,7 @@ class AdvertismentController extends Controller
         $is_data = new Advertisment();
         $is_data->name = $request->input('name');
         $is_data->type = $request->input('type');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
         $is_data->efective = $request->input('efective');
@@ -115,14 +115,14 @@ class AdvertismentController extends Controller
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
 
-        $is_data->longitude = $request->input('status') ? $request->input('status') : 1;
-        $is_data->longitude = $request->input('type_ads');
-        $is_data->longitude = $request->input('price_ads');
-        $is_data->longitude = $request->input('name_advertiser');
-        $is_data->longitude = $request->input('email_advertiser');
-        $is_data->longitude = $request->input('telp_advertiser');
-        $is_data->longitude = $request->input('impression');
-        $is_data->longitude = $request->input('clicked');
+        $is_data->status = $request->input('status') ? $request->input('status') : 1;
+        $is_data->type_ads = $request->input('type_ads');
+        $is_data->price_ads = $request->input('price_ads');
+        $is_data->name_advertiser = $request->input('name_advertiser');
+        $is_data->email_advertiser = $request->input('email_advertiser');
+        $is_data->telp_advertiser = $request->input('telp_advertiser');
+        $is_data->impression = $request->input('impression');
+        $is_data->clicked = $request->input('clicked');
 
         $is_data->save();
 
@@ -159,7 +159,7 @@ class AdvertismentController extends Controller
         $is_data = Advertisment::find($id);
         $is_data->name = $request->input('name');
         $is_data->type = $request->input('type');
-        $is_data->image = $request->input('image');
+        $is_data->image = $this->uploadToStorage($request->input('image'));
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
         $is_data->efective = $request->input('efective');
@@ -167,14 +167,14 @@ class AdvertismentController extends Controller
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
 
-        $is_data->longitude = $request->input('status');
-        $is_data->longitude = $request->input('type_ads');
-        $is_data->longitude = $request->input('price_ads');
-        $is_data->longitude = $request->input('name_advertiser');
-        $is_data->longitude = $request->input('email_advertiser');
-        $is_data->longitude = $request->input('telp_advertiser');
-        $is_data->longitude = $request->input('impression');
-        $is_data->longitude = $request->input('clicked');
+        $is_data->status = $request->input('status');
+        $is_data->type_ads = $request->input('type_ads');
+        $is_data->price_ads = $request->input('price_ads');
+        $is_data->name_advertiser = $request->input('name_advertiser');
+        $is_data->email_advertiser = $request->input('email_advertiser');
+        $is_data->telp_advertiser = $request->input('telp_advertiser');
+        $is_data->impression = $request->input('impression');
+        $is_data->clicked = $request->input('clicked');
         $is_data->save();
 
         return $this->jsonResponse(
