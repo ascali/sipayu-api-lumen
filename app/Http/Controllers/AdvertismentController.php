@@ -50,6 +50,14 @@ class AdvertismentController extends Controller
                 'advertisments.latitude',
                 'advertisments.longitude',
                 'advertisments.created_at',
+                'advertisments.status',
+                'advertisments.type_ads',
+                'advertisments.price_ads',
+                'advertisments.name_advertiser',
+                'advertisments.email_advertiser',
+                'advertisments.telp_advertiser',
+                'advertisments.impression',
+                'advertisments.clicked',
             )
             ->whereNull('advertisments.deleted_at')
             ->where(function ($query) use ($request) {
@@ -61,7 +69,13 @@ class AdvertismentController extends Controller
                 ->orWhere('advertisments.efective', 'like', '%'. $request->input('search.value') .'%')
                 ->orWhere('advertisments.expired', 'like', '%'. $request->input('search.value') .'%')
                 ->orWhere('advertisments.latitude', 'like', '%'. $request->input('search.value') .'%')
-                ->orWhere('advertisments.longitude', 'like', '%'. $request->input('search.value') .'%');
+                ->orWhere('advertisments.longitude', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.status', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.type_ads', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.price_ads', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.name_advertiser', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.email_advertiser', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('advertisments.telp_advertiser', 'like', '%'. $request->input('search.value') .'%');
             });
 
         $output['recordsTotal'] = $query->count();
@@ -100,6 +114,16 @@ class AdvertismentController extends Controller
         $is_data->expired = $request->input('expired');
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
+
+        $is_data->longitude = $request->input('status') ? $request->input('status') : 1;
+        $is_data->longitude = $request->input('type_ads');
+        $is_data->longitude = $request->input('price_ads');
+        $is_data->longitude = $request->input('name_advertiser');
+        $is_data->longitude = $request->input('email_advertiser');
+        $is_data->longitude = $request->input('telp_advertiser');
+        $is_data->longitude = $request->input('impression');
+        $is_data->longitude = $request->input('clicked');
+
         $is_data->save();
 
         return $this->jsonResponse(
@@ -142,6 +166,15 @@ class AdvertismentController extends Controller
         $is_data->expired = $request->input('expired');
         $is_data->latitude = $request->input('latitude');
         $is_data->longitude = $request->input('longitude');
+
+        $is_data->longitude = $request->input('status');
+        $is_data->longitude = $request->input('type_ads');
+        $is_data->longitude = $request->input('price_ads');
+        $is_data->longitude = $request->input('name_advertiser');
+        $is_data->longitude = $request->input('email_advertiser');
+        $is_data->longitude = $request->input('telp_advertiser');
+        $is_data->longitude = $request->input('impression');
+        $is_data->longitude = $request->input('clicked');
         $is_data->save();
 
         return $this->jsonResponse(

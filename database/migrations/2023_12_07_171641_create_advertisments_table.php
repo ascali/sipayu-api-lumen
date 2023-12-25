@@ -22,6 +22,14 @@ return new class extends Migration
             $table->datetime('expired')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->boolean('status')->nullable();
+            $table->string('type_ads')->nullable();
+            $table->float('price_ads')->nullable();
+            $table->string('name_advertiser')->nullable();
+            $table->string('email_advertiser')->nullable();
+            $table->string('telp_advertiser')->nullable();
+            $table->integer('impression')->nullable();
+            $table->integer('clicked')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

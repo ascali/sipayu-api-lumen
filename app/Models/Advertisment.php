@@ -27,6 +27,14 @@ class Advertisment extends Model
         'efective',
         'expired',
         'latitude',
-        'longitude'
+        'longitude',
+        'status',
+        'type_ads',
+        'price_ads',
+        'name_advertiser',
+        'email_advertiser',
+        'telp_advertiser',
+        'impression',
+        'clicked',
     ];
 }
