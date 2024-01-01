@@ -40,12 +40,17 @@ class DestinationSeeder extends Seeder
             $mime_split_without_base64=explode(';', $mime,2);
             $mime_split=explode('/', $mime_split_without_base64[0],2);
             $file_type = $mime_split[1];
-            $is_file = "/des_".date("YmdHis").".".$file_type;
+            $is_file = "/ebro_".date("YmdHis").".".$file_type;
 
-            file_put_contents(public_path('storage') . $is_file, file_get_contents($base64_string));
+            file_put_contents($this->public_path('storage') . $is_file, file_get_contents($base64_string));
 
             return $output_file . $is_file;
         }
         return null;
+    }
+
+    function public_path($path=null)
+    {
+            return rtrim(app()->basePath('public/'.$path), '/');
     }
 }
