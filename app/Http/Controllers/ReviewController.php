@@ -33,7 +33,21 @@ class ReviewController extends Controller
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
 
+
         $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$id_destination]);
+        $stars = DB::select("
+            select 
+                (select COUNT(rating) from ratings where rating = 5) as star_5,
+                (select COUNT(rating) from ratings where rating = 4) as star_4,
+                (select COUNT(rating) from ratings where rating = 3) as star_3,
+                (select COUNT(rating) from ratings where rating = 2) as star_2,
+                (select COUNT(rating) from ratings where rating = 1) as star_1
+            from ratings
+            where id_destination = ?
+            group by id_destination
+            limit 1;
+        ", [$id_destination]);
+
         if ($request->input('page')!='' && $request->input('limit')!='') {
             $reviews = Review::where('id_destination', $id_destination)
                 ->join('users', 'reviews.id_user', '=', 'users.id')
@@ -44,6 +58,7 @@ class ReviewController extends Controller
         
         $is_data = [
             'rating' => $rating,
+            'stars' => $stars,
             'reviews' => $reviews,
         ];
         return $this->jsonResponse(
