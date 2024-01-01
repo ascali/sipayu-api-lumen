@@ -36,10 +36,15 @@ class Controller extends BaseController
             $file_type = $mime_split[1];
             $is_file = "/".date("YmdHis").".".$file_type;
 
-            file_put_contents(public_path('storage') . $is_file, file_get_contents($base64_string));
+            file_put_contents($this->public_path('storage') . $is_file, file_get_contents($base64_string));
 
             return $output_file . $is_file;
         }
         return null;
+    }
+
+    function public_path($path=null)
+    {
+        return rtrim(app()->basePath('public/'.$path), '/');
     }
 }
