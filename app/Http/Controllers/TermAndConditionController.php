@@ -12,6 +12,40 @@ class TermAndConditionController extends Controller
         $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
+    public function list(Request $request)
+    {
+        $orderby = $request->input('order.0.column');
+        $sort['col'] = $request->input('columns.' . $orderby . '.data');    
+        $sort['dir'] = $request->input('order.0.dir');
+
+        $query = Term_and_condition::select(
+                'id',
+                'name',
+                'description',
+                'created_at',
+            )
+            ->whereNull('deleted_at')
+            ->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('description', 'like', '%'. $request->input('search.value') .'%')
+                ->orWhere('created_at', 'like', '%'. $request->input('search.value') .'%');
+            });
+
+        $output['recordsTotal'] = $query->count();
+
+        $output['data'] = $query
+                ->orderBy($sort['col'], $sort['dir'])
+                ->skip($request->input('start'))
+                ->take($request->input('length',10))
+                ->get();
+
+        $output['recordsFiltered'] = $output['recordsTotal'];
+
+        $output['draw'] = intval($request->input('draw'));
+
+        return $output;
+    }
+
     public function index()
     {
         $is_data = Term_and_condition::all();

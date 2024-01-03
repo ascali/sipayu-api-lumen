@@ -126,6 +126,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['prefix' => 'term_and_condition'], function () use ($router) {
         $router->get('', 'TermAndConditionController@index');
+        $router->get('/list', 'TermAndConditionController@list');
         $router->get('/{id}', 'TermAndConditionController@show');
         $router->post('/create', 'TermAndConditionController@store');
         $router->post('/update/{id}', 'TermAndConditionController@update');
