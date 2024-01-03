@@ -124,4 +124,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->delete('/delete/{id}', 'HistoryController@destroy');
     });
 
+    $router->group(['prefix' => 'term_and_condition'], function () use ($router) {
+        $router->get('', 'TermAndConditionController@index');
+        $router->get('/{id}', 'TermAndConditionController@show');
+        $router->post('/create', 'TermAndConditionController@store');
+        $router->post('/update/{id}', 'TermAndConditionController@update');
+        $router->delete('/delete/{id}', 'TermAndConditionController@destroy');
+    });
+
 });
