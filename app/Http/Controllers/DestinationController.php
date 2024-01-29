@@ -10,73 +10,62 @@ class DestinationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
-    }
-
-    public function index(Request $request)
-    {
-        $is_data = [];
-        $page = $request->input('page') != '' ? $request->input('page') : 1;
-        $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
-        $id_toi = $request->input('id_toi');
-
-        if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
-            $is_data = Destination::orderBy('id', 'desc')
-                ->where('id_toi', $id_toi)
-                ->orWhere('name', 'like', '%'. $request->input('search') .'%')
-                ->limit($limit)
-                ->offset(($page - 1) * $limit)
-                ->get()->toArray();
-            foreach ($is_data as $key => $value) {
-                $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
-                $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
-                $is_data[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
-                $is_data[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
-            }
-        } else {
-            $is_data = Destination::all();
-        }
-        return $this->jsonResponse(
-            true,
-            'Success',
-            $is_data,
-            200
-        );
+        // $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
     public function list(Request $request)
     {
-        $is_data = [];
+        $query = [];
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
         $id_toi = $request->input('id_toi');
+        
+        $query = Destination::query();
+        $query = $query->select(
+                'destinations.id',
+                'destinations.id_toi',
+                'destinations.name',
+                'type_of_interests.name as type_of_interests_name',
+                'destinations.image',
+                'destinations.contact',
+                'destinations.description',
+                'destinations.location',
+                'destinations.latitude',
+                'destinations.longitude',
+                'destinations.created_at',
+        );
 
-        // if ($request->input('limit')!='' ) {
-        //     $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit);
-        // }
-        // if ($request->input('page')!='' && $request->input('limit')!='') {
-        //     // $is_data = Destination::orderBy('updated_at', 'desc')->paginate($page);
-        //     $is_data = Destination::orderBy('updated_at', 'desc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        // }
-        if ($request->input('page')!='' && $request->input('limit')!='' && $request->input('id_toi')!='') {
-            $is_data = Destination::orderBy('updated_at', 'desc')
-                ->where('id_toi', $id_toi)
-                ->orWhere('name', 'like', '%'. $request->input('search') .'%')
-                ->limit($limit)
-                ->offset(($page - 1) * $limit)
-                ->get()->toArray();
-            foreach ($is_data as $key => $value) {
-                $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
-                $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
-                $is_data[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
-                $is_data[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
-            }
+        $query = $query->join('type_of_interests', 'destinations.id_toi', '=', 'type_of_interests.id');
+
+        $query = $query->whereNull('destinations.deleted_at');
+        
+        $query->when($request->id_toi != null, function ($query) use ($request) {
+            $query->where('destinations.id_toi', '=', $request->id_toi);
+        });
+
+        $query->when($request->search != null, function ($query) use ($request) {
+            $query->whereRaw('LOWER(destinations.name) LIKE (?)', ['%' . strtolower($request->search) . '%'])
+                  ->orWhereRaw('LOWER(destinations.description) LIKE (?)', ['%' . strtolower($request->search) . '%'])
+                  ->orWhereRaw('LOWER(destinations.location) LIKE (?)', ['%' . strtolower($request->search) . '%']);
+        });
+
+        $query = $query->orderBy('destinations.id', 'desc')
+            ->limit($limit)
+            ->offset(($page - 1) * $limit)
+            ->get()
+            ->toArray();
+        
+        foreach ($query as $key => $value) {
+            $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
+            $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
+            $query[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
+            $query[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
         }
 
         return $this->jsonResponse(
             true,
             'Success',
-            $is_data,
+            $query,
             200
         );
     }

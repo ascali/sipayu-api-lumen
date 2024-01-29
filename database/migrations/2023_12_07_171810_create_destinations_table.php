@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_toi');
+            $table->bigInteger('id_toi')->unsigned();
             $table->string('name')->nullable();
             $table->longText('image')->nullable();
             $table->string('contact')->nullable();

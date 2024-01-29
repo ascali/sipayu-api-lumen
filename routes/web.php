@@ -81,7 +81,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'destination'], function () use ($router) {
-        $router->get('', 'DestinationController@index');
         $router->get('/list_dt', 'DestinationController@list_dt');
         $router->get('/list', 'DestinationController@list');
         $router->get('/{id}', 'DestinationController@show');
