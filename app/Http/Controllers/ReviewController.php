@@ -11,7 +11,7 @@ class ReviewController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
+        // $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
 
     public function index()

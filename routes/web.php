@@ -34,6 +34,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('login', 'AuthController@login');
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
+    $router->post('reset-password', 'AuthController@resetPassword');
+    $router->get('forgot', 'AuthController@forgot');
     $router->get('me', 'AuthController@me');
 
     $router->group(['prefix' => 'users'], function () use ($router) {

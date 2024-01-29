@@ -6,12 +6,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
+        // $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh', 'logout']]);
     }
     
     public function register(Request $request)
@@ -159,7 +161,7 @@ class AuthController extends Controller
                 'roles.name as roles_name',
             )
             ->whereNull('users.deleted_at')
-            ->where('roles.id', '!=', 1)
+            // ->where('roles.id', '!=', 1)
             ->where(function ($query) use ($request) {
                 $query->where('users.name', 'like', '%'. $request->input('search.value') .'%')
                 ->orWhere('users.email', 'like', '%'. $request->input('search.value') .'%')
@@ -268,6 +270,47 @@ class AuthController extends Controller
             true,
             'User Deleted Successfully',
             [],
+            200
+        );
+    }
+
+    public function forgot(Request $request) {
+
+        $query = DB::table('users')
+            ->select("users.id", "users.name", "users.email")
+            ->whereRaw('LOWER(users.email) = ?', (strtolower($request->email)))
+            ->first();
+            
+        Mail::send('mail.mail', array("data" => $query, "date" => date("Y-m-d H:i:s")), function($message) use ($query) {
+            $message->to($query->email, $query->name)->subject('Lupa Kata Sandi - SIPAYU');
+            $message->from('noreply@be-sipayu.indramayukab.go.id','No Reply - SIPAYU');
+        });
+
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $query,
+            200
+        );
+    }
+
+    public function resetPassword(Request $request, $id)
+    {
+        $this->validate($request,[
+            'id' => 'required',
+            'password' => 'required'
+        ]);
+
+        $is_data = User::find($id);
+        if ($request->get('password') != "") {
+            $is_data->password = app('hash')->make($request->get('password'));
+        }
+        $is_data->save();
+
+        return $this->jsonResponse(
+            true,
+            'Success',
+            $is_data,
             200
         );
     }
