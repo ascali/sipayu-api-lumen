@@ -25,8 +25,9 @@ class AuthController extends Controller
         ]);
 
         try {
+            $isAccess = $request->get('is_access') == "web" ? $request->get('id_role') : 3;
             $data = new User;
-            $data->id_role = $request->get('id_role') || 3;
+            $data->id_role = $isAccess;
             $data->name = $request->get('name');
             $data->email = $request->get('email');
             $data->address = $request->get('address');
@@ -276,19 +277,29 @@ class AuthController extends Controller
 
     public function forgot(Request $request) {
 
+        $this->validate($request,[
+            'email' => 'required'
+        ]);
+
         $query = DB::table('users')
             ->select("users.id", "users.name", "users.email")
             ->whereRaw('LOWER(users.email) = ?', (strtolower($request->email)))
             ->first();
-            
-        Mail::send('mail.mail', array("data" => $query, "date" => date("Y-m-d H:i:s")), function($message) use ($query) {
-            $message->to($query->email, $query->name)->subject('Lupa Kata Sandi - SIPAYU');
-            $message->from('noreply@be-sipayu.indramayukab.go.id','No Reply - SIPAYU');
-        });
+        
+        if ($query) {
+            $message = 'Success';
+            Mail::send('mail.mail', array("data" => $query, "date" => date("Y-m-d H:i:s")), function($message) use ($query) {
+                $message->to($query->email, $query->name)->subject('Lupa Kata Sandi - SIPAYU');
+                $message->from('noreply@ipayu.indramayukab.go.id','No Reply - SIPAYU');
+            });
+        } else {
+            $query = [];
+            $message = 'Email not found!';
+        }
 
         return $this->jsonResponse(
             true,
-            'Success',
+            $message,
             $query,
             200
         );
