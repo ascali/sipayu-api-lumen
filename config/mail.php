@@ -35,7 +35,7 @@ return [
 
     'mailers' => [
         'smtp' => [
-            'transport' => 'smtp',
+            'transport' => 'sendmail',
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'mail.sipayu.indramayukab.go.id'),
             'port' => env('MAIL_PORT', 465),
