@@ -18,7 +18,7 @@ use App\Http\Controllers\MailController;
 $router->get('/', function () use ($router) {
     return response()->json([
             "status"=> true,
-            "message"=> 'Welcome to SIPAYU Services!',
+            "message"=> 'Welcome to SIPAYU Services! Ok!',
             "data"=> []
         ], 200);
 });

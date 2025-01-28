@@ -129,11 +129,24 @@ class DestinationController extends Controller
             'latitude' => 'required',
             'longitude' => 'required',
         ]);
+        
+        $images = $request->input('image');
+
+        if (count(json_decode($images)) > 1) {
+            $isImage = [];
+            for ($i=0; $i < count(json_decode($images)); $i++) { 
+                $toStorage = $this->uploadToStorage(json_decode($images)[$i]);
+                array_push($isImage, $toStorage);
+            }
+            $images = json_encode($isImage);
+        } else {
+            $images = $this->uploadToStorage($request->input('image'));
+        }
 
         $is_data = new Destination();
         $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $images;
         $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');
@@ -177,10 +190,23 @@ class DestinationController extends Controller
             'longitude' => 'required',
         ]);
 
+        $images = $request->input('image');
+
+        if (count(json_decode($images)) > 1) {
+            $isImage = [];
+            for ($i=0; $i < count(json_decode($images)); $i++) { 
+                $toStorage = $this->uploadToStorage(json_decode($images)[$i]);
+                array_push($isImage, $toStorage);
+            }
+            $images = json_encode($isImage);
+        } else {
+            $images = $this->uploadToStorage($request->input('image'));
+        }
+
         $is_data = Destination::find($id);
         $is_data->id_toi = $request->input('id_toi');
         $is_data->name = $request->input('name');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $images;
         $is_data->contact = $request->input('contact');
         $is_data->description = $request->input('description');
         $is_data->location = $request->input('location');
