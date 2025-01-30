@@ -24,6 +24,7 @@ class Review extends Model
         'id_rating',
         'id_review_image',
         'review',
+        'verify',
         'image'
     ];
 }

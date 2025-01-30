@@ -6,7 +6,112 @@ use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Application Routes APPS
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It is a breeze. Simply tell Lumen the URIs it should respond to
+| and give it the Closure to call when that URI is requested.
+|
+*/ 
+$router->get('/', function () use ($router) {
+    return view('layouts.login', ["title" => "Login"]);
+});
+
+$router->get('/login', function () use ($router) {
+    // return $router->app->version();
+    return view('layouts.login', ["title" => "Login"]);
+});
+
+$router->get('/reset_password', function () use ($router) {
+    return view('layouts.reset_password', ["title" => "Reset Password"]);
+});
+
+
+$router->group(['prefix' => 'dashboard'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        // return view('modules.dashboard', ["title" => "Dashboard"]);
+        return view('modules.users', ["title" => "Users"]);
+    });
+});
+
+$router->group(['prefix' => 'roles'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.roles', ["title" => "Roles"]);
+    });
+});
+
+$router->group(['prefix' => 'users'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.users', ["title" => "Users"]);
+    });
+});
+
+$router->group(['prefix' => 'ads'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.ads', ["title" => "Advertisment"]);
+    });
+});
+
+$router->group(['prefix' => 'ebrosure'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.ebrosure', ["title" => "eBrosure"]);
+    });
+});
+
+$router->group(['prefix' => 'type_of_interest'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.type_of_interest', ["title" => "Type of Interest"]);
+    });
+});
+
+$router->group(['prefix' => 'category_type_of_interest'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.category_type_of_interest', ["title" => "Category Type of Interest"]);
+    });
+});
+
+$router->group(['prefix' => 'destination'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.destination', ["title" => "Destination"]);
+    });
+});
+
+$router->group(['prefix' => 'event'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.event', ["title" => "Event"]);
+    });
+});
+
+$router->group(['prefix' => 'rating'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.rating', ["title" => "Rating"]);
+    });
+});
+
+$router->group(['prefix' => 'reviews'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.reviews', ["title" => "Reviews"]);
+    });
+});
+
+$router->group(['prefix' => 'history'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.history', ["title" => "History"]);
+    });
+});
+
+$router->group(['prefix' => 'term_and_conditions'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return view('modules.term_and_conditions', ["title" => "Term & Conditions"]);
+    });
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes API
 |--------------------------------------------------------------------------
 |
 | Here is where you can register all of the routes for an application.
@@ -15,14 +120,6 @@ use App\Http\Controllers\MailController;
 |
 */
 
-$router->get('/', function () use ($router) {
-    return response()->json([
-            "status"=> true,
-            "message"=> 'Welcome to SIPAYU Services! Ok!',
-            "data"=> []
-        ], 200);
-});
-
 $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
@@ -30,6 +127,14 @@ $router->get('/key', function() {
 $router->get('send_email' ,'MailController@mail');
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return response()->json([
+                "status"=> true,
+                "message"=> 'Welcome to SIPAYU Services! Ok!',
+                "data"=> []
+            ], 200);
+    });
+
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
     $router->post('logout', 'AuthController@logout');
@@ -75,7 +180,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'type_of_interest'], function () use ($router) {
         $router->get('', 'TypeOfInterestController@index');
         $router->get('/list', 'TypeOfInterestController@list');
+        $router->get('/category_list', 'TypeOfInterestController@category_list');
         $router->get('/list_dt', 'TypeOfInterestController@list_dt');
+        $router->get('/category_list_dt', 'TypeOfInterestController@category_list_dt');
         $router->get('/{id}', 'TypeOfInterestController@show');
         $router->post('/create', 'TypeOfInterestController@store');
         $router->post('/update/{id}', 'TypeOfInterestController@update');
@@ -111,6 +218,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'review'], function () use ($router) {
         $router->get('', 'ReviewController@index');
         $router->get('/list', 'ReviewController@list');
+        $router->get('/list_dt', 'ReviewController@list_dt');
         $router->get('/{id}', 'ReviewController@show');
         $router->post('/create', 'ReviewController@store');
         $router->post('/update/{id}', 'ReviewController@update');
