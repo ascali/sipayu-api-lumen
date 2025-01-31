@@ -36,14 +36,12 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'sendmail',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', 'mail.sipayu.indramayukab.go.id'),
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
             'port' => env('MAIL_PORT', 465),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+            'username' => env('MAIL_USERNAME', "disparaindramayu@gmail.com"),
+            'password' => env('MAIL_PASSWORD', "ryszpykbbviquslt"),
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
         
         'stream' => [
@@ -80,7 +78,7 @@ return [
 
         'log' => [
             'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
+            'channel' => env('MAIL_LOG_CHANNEL', ''),
         ],
 
         'array' => [

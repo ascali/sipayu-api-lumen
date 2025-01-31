@@ -19,6 +19,7 @@ class Type_of_interest extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id_parent',
         'name',
         'image',
         'description'
