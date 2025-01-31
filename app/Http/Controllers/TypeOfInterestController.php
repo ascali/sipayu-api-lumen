@@ -26,7 +26,8 @@ class TypeOfInterestController extends Controller
 
     public function list(Request $request)
     {
-        $is_data = Type_of_interest::all();
+        $is_data = Type_of_interest::whereNull('type_of_interests.deleted_at')
+            ->whereNull('type_of_interests.id_parent')->get();
         return $this->jsonResponse(
             true,
             'Success',
