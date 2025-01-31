@@ -132,7 +132,7 @@
 				<div class="modal-body">
 						<input type="hidden" name="id" id="id" />
 
-						<div class="col-md-3 mb-3">
+						<div class=" mb-3">
 								<label for="id_parent" class="col-form-label">Type of Interest (Menu):</label>
 								<select class="form-control"  name="id_parent" id="id_parent" required></select>
 							</div>
@@ -178,7 +178,7 @@
 				"retrieve": true,
 				"columns": [
 					{ "data": "name" },
-					{ "data": "name_parent" },
+					{ "data": "name" },
 					{ "data": null, "render": (row) => `<img src="${row.image}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />` },
 					{ "data": "description"  },
 					{ "data": "created_at" },

@@ -136,15 +136,19 @@
 				<div class="modal-body">
 						<input type="hidden" name="id" id="id" />
 						<div class="row">
-							<div class="col-md-4 mb-3">
+							<div class="col-md-6 mb-3">
 								<label for="id_toi" class="col-form-label">Type of Interest (Menu):</label>
 								<select class="form-control"  name="id_toi" id="id_toi" required></select>
 							</div>
-							<div class="col-md-4 mb-3">
+							<div class="col-md-6 mb-3">
+								<label for="id_toi_parent" class="col-form-label">Catgory Type of Interest (Sub Menu):</label>
+								<select class="form-control"  name="id_toi_parent" id="id_toi_parent" required></select>
+							</div>
+							<div class="col-md-6 mb-3">
 								<label for="name" class="col-form-label">Nama:</label>
 								<input type="text" name="name" class="form-control" id="name" required />
 							</div>
-							<div class="col-md-4 mb-3">
+							<div class="col-md-6 mb-3">
 								<label for="contact" class="col-form-label">Kontak:</label>
 								<input type="text" name="name" class="form-control" id="contact" required />
 								<label for="contact"><small>Anda dapat mengisi no hp atau alamat email</small></label>
@@ -206,7 +210,29 @@
 				"columns": [
 					{ "data": "name" },
 					{ "data": "type_of_interests_name" },
-					{ "data": null, "render": (row) => `<img src="${row.image}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />` },
+					{ "data": null, "render": (row) => {
+							let img = '';
+							let image = isJsonString(row.image);
+							if (image != false) {
+								image = JSON.parse(row.image);
+								let images = '';
+								images = '<div class="row">';
+								for (let i = 0; i < image.length; i++) {
+									const element = image[i];
+									if (element != "") {
+										images += `<div class="col-12">
+											<img id="ads-img-thumbnail" src="${element}" class="img-thumbnail mx-auto d-block" alt="..." style="width: 100px;>
+										</div>`;
+									}
+								}
+								images += '</div>';
+								img = images;
+							} else {
+								img = `<img src="${row.image}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
+							}
+							return img;
+						}
+					},
 					{ "data": "contact"  },
 					{ "data": "description" },
 					{ "data": "location"  },
@@ -252,7 +278,11 @@
 			e.preventDefault();
 			await submitData();
 		});
-
+		$(document).on("change", "#id_toi", async function() {
+			let id_toi = $(this).val();
+			await getCategoryToI("id_toi_parent", id_toi);
+		});
+		
 		async function getToI(id_toi="") {
 			let headersList = {
 				"Authorization": `Bearer ${apiKey}` 
@@ -273,6 +303,28 @@
 				dom += `<option value="${element.id}" ${id_toi!=""?'selected':''}>${element.name}</option>`;
 			}
 			$("#id_toi").html(dom);
+		}
+		
+		async function getCategoryToI(idDom="", id_toi_parent="") {
+			let headersList = {
+				"Authorization": `Bearer ${apiKey}` 
+			}
+			
+			let reqOptions = {
+				url: `${baseUrlApi}/api/type_of_interest/category_list?id_parent=${id_toi_parent}`,
+				method: "GET",
+				headers: headersList,
+			}
+			
+			let response = await axios.request(reqOptions);
+			let data = response.data.data;
+			let dom = ``;
+			dom += `<option selected>Pilih</option>`;
+			for (let i = 0; i < data.length; i++) {
+				const element = data[i];
+				dom += `<option value="${element.id}" ${id_toi_parent!=""?'selected':''}>${element.name}</option>`;
+			}
+			$(`#${idDom}`).html(dom);
 		}
 
 		async function getData(id) {
@@ -298,7 +350,6 @@
 			  let image = isJsonString(data.image);
 			  if (image != false) {
 				  image = JSON.parse(data.image);
-				  console.log("🚀 ~ .then ~ imagesss:", image)
 				  
 				  let images = '';
 				  for (let i = 0; i < image.length; i++) {

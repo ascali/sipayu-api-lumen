@@ -200,7 +200,8 @@ class DestinationController extends Controller
             }
             $images = json_encode($isImage);
         } else {
-            $images = $this->uploadToStorage($request->input('image'));
+            $total = count(json_decode($images));
+            $images = $total == 1 ? $this->uploadToStorage($request->input('image')) : '';
         }
 
         $is_data = Destination::find($id);
