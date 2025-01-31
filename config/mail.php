@@ -36,14 +36,12 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'sendmail',
-            // 'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'smtp.gmail.com'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
             'username' => env('MAIL_USERNAME', "disparaindramayu@gmail.com"),
             'password' => env('MAIL_PASSWORD', "ryszpykbbviquslt"),
             'timeout' => null,
-            // 'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
         
         'stream' => [
