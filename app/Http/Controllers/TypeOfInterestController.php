@@ -60,6 +60,7 @@ class TypeOfInterestController extends Controller
                 'type_of_interests.description',
                 'type_of_interests.created_at',
             )
+            ->whereNull('type_of_interests.id_parent')
             ->whereNull('type_of_interests.deleted_at')
             ->where(function ($query) use ($request) {
                 $query->where('type_of_interests.name', 'like', '%'. $request->input('search.value') .'%')
