@@ -1,7 +1,7 @@
 {
     "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "description": "SIPAYU",
+    "keywords": ["sipayu", "framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
     "require": {
