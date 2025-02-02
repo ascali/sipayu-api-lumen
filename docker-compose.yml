@@ -1,6 +1,9 @@
 version: '3'
 services:
-  esmk:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       CONTAINER_ROLE: app
     image: sipayu

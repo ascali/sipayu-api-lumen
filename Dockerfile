@@ -7,7 +7,7 @@ USER root
 
 
 # Set working directory di dalam container
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 # Menambahkan user baru dalam container dan mengubah kepemilikan
 # RUN useradd -ms /bin/bash lumenuser
