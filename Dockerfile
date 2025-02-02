@@ -5,6 +5,8 @@ FROM php:8.1
 
 USER root
 
+ARG ENV_BASE64
+ARG NODE_VERSION=16.13.0
 
 # Set working directory di dalam container
 WORKDIR /var/www
@@ -12,7 +14,7 @@ WORKDIR /var/www
 # Menambahkan user baru dalam container dan mengubah kepemilikan
 # RUN useradd -ms /bin/bash lumenuser
 # RUN chown -R lumenuser:lumenuser /var
-RUN chown -R root:root /var/www/html
+RUN chown -R root:root /var/www
 # RUN chown -R lumenuser:lumenuser /var/lib/apt/lists 
 # RUN chown -R lumenuser:lumenuser /var/cache/apt/archives/partial
 # RUN chown -R lumenuser:lumenuser /var/lib/dpkg/lock-frontend
@@ -79,6 +81,8 @@ RUN chmod +rwx /var/www
 
 RUN chmod -R 777 /var/www
 
+RUN echo -n $ENV_BASE64 | base64 --decode >> /var/www/.env
+
 RUN composer install --prefer-dist --no-interaction
 RUN composer update
 
@@ -95,9 +99,9 @@ RUN composer dump-autoload
 # Jalankan PHP-FPM
 # CMD ["php-fpm"]
 
-EXPOSE 8000 80
+EXPOSE 80
 
 RUN npm install --global pm2
 
 # CMD ["sh", "-c", "pm2 start artisan --name app --interpreter php -- serve --host=0.0.0.0 --port=8000 && nginx"]
-CMD ["sh", "-c", "pm2 start 'php -S 0.0.0.0:8000 ' --name app && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "pm2 start php -S 0.0.0.0:8000"]
