@@ -7,7 +7,7 @@ services:
     container_name: lumen_app
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "3000:3000"
     environment:
       - APP_ENV=production
       - APP_KEY=${APP_KEY}
