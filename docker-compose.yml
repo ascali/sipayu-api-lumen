@@ -1,19 +1,30 @@
-version: '3.8'
+version: '3'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: lumen-app
+    build: .
+    image: sipayu-api-lumen-app
+    container_name: lumen_app
     restart: unless-stopped
     ports:
-      - "8080:80"
-    volumes:
-      - .:/var/www/html
-    networks:
-      - lumen-network
-
-networks:
-  lumen-network:
-    driver: bridge
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=false
+      - APP_URL=${APP_URL}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=${DB_HOST}  # Host database yang sudah ada
+      - DB_PORT=${DB_PORT}  # Port database yang sudah ada
+      - DB_DATABASE=${DB_DATABASE}  # Nama database yang sudah ada
+      - DB_USERNAME=${DB_USERNAME}  # Username database yang sudah ada
+      - DB_PASSWORD=${DB_PASSWORD}  # Password database yang sudah ada
+      - JWT_SECRET=${JWT_SECRET}
+      - MAIL_MAILER=${MAIL_MAILER}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
