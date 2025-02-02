@@ -7,7 +7,7 @@ services:
     container_name: lumen_app
     restart: unless-stopped
     expose:
-      - "8000"  # Hanya expose port 8000 di jaringan internal Docker
+      - "3000"  # Hanya expose port 3000 di jaringan internal Docker
     environment:
       - APP_ENV=production
       - APP_KEY=${APP_KEY}

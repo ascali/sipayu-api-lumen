@@ -25,9 +25,9 @@ COPY . .
 # Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 8000
-EXPOSE 8000
+# Expose port 3000
+EXPOSE 3000
 
 # Start the Lumen application
-# CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
-CMD ["php", "-S", "0.0.0.0:8000"]
+# CMD ["php", "-S", "0.0.0.0:3000", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:3000"]
