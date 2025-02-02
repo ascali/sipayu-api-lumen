@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+
 $app->configure('mail');
  
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
@@ -100,6 +101,7 @@ $app->routeMiddleware([
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);

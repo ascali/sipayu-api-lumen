@@ -35,12 +35,13 @@ return [
 
     'mailers' => [
         'smtp' => [
-            'transport' => 'sendmail',
+            'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.gmail.com'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
             'username' => env('MAIL_USERNAME', "disparaindramayu@gmail.com"),
-            'password' => env('MAIL_PASSWORD', "ryszpykbbviquslt"),
+            'password' => env('MAIL_PASSWORD', "vrfo mwva zgcg cwlz"),
+            // 'password' => env('MAIL_PASSWORD', "ryszpykbbviquslt"),
             'timeout' => null,
         ],
         
