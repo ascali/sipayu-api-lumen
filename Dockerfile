@@ -104,4 +104,5 @@ EXPOSE 80
 RUN npm install --global pm2
 
 # CMD ["sh", "-c", "pm2 start artisan --name app --interpreter php -- serve --host=0.0.0.0 --port=8000 && nginx"]
-CMD ["sh", "-c", "pm2 start 'php -S 0.0.0.0:8000'"]
+CMD ["sh", "-c", "pm2 start 'php -S 0.0.0.0:8000 -t public' --name app && nginx -g 'daemon off;'"]
+
