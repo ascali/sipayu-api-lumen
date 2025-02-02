@@ -30,6 +30,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Setel COMPOSER_ALLOW_SUPERUSER untuk memungkinkan Composer berjalan dengan hak akses root
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Copy seluruh file aplikasi Lumen ke dalam container
 COPY . .
 
@@ -39,6 +42,7 @@ RUN chmod +rwx /var/www
 RUN chmod -R 777 /var/www
 
 RUN composer install --prefer-dist --no-interaction
+RUN composer update
 
 RUN php artisan cache:clear
 
