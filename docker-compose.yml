@@ -1,43 +1,31 @@
-version: '3'
+version: '3.8'
 
 services:
-  app:
+  web:
     build: .
-    image: sipayu-api-lumen-app
-    container_name: lumen_app
-    restart: unless-stopped
-    expose:
-      - "3000"  # Hanya expose port 3000 di jaringan internal Docker
+    ports:
+      - "80:80" # Expose port 80 untuk akses aplikasi
     environment:
       - APP_ENV=production
-      - APP_KEY=${APP_KEY}
       - APP_DEBUG=false
-      - APP_URL=${APP_URL}
-      - DB_CONNECTION=${DB_CONNECTION}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - JWT_SECRET=${JWT_SECRET}
-      - MAIL_MAILER=${MAIL_MAILER}
-      - MAIL_HOST=${MAIL_HOST}
-      - MAIL_PORT=${MAIL_PORT}
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
-      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION}
-      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
-      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
+      - APP_URL=http://localhost
+      - DB_CONNECTION=pgsql
+      - DB_HOST=27.112.78.145
+      - DB_PORT=5432
+      - DB_DATABASE=sipayu_db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=k3s24fGWWQ6FKZnRWDbAaBhiYWB6jxIZLtRNAYGwW4Ea8GepKXyBWQqDRBwpwrea
+      - JWT_SECRET=YPlJAj6L74PHwVZQDucBulT77xTb53wGTjysOI1YsReyD59SiMxXlFl6BlKYlHgD
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=465
+      - MAIL_USERNAME=disparaindramayu@gmail.com
+      - MAIL_PASSWORD=vrfomwvazgcgcwlz
+      - MAIL_ENCRYPTION=ssl
+      - MAIL_FROM_ADDRESS=disparaindramayu@gmail.com
+      - MAIL_FROM_NAME=SIPAYU
+    networks:
+      - lumen-network
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx_proxy
-    restart: unless-stopped
-    ports:
-      - "80:80"   # HTTP
-      # - "443:443" # HTTPS
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Mount konfigurasi Nginx
-      # - ./ssl:/etc/nginx/ssl  # Folder untuk sertifikat SSL (jika menggunakan HTTPS)
-    depends_on:
-      - app
+networks:
+  lumen-network:
