@@ -1,37 +1,25 @@
 <!DOCTYPE html>
-<!--
-Author: Keenthemes
-Product Name: Saul
-Product Version: 1.0.0
-Upgrade to Pro: https://keenthemes.com/products/saul-html-pro
-Website: http://www.keenthemes.com
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
--->
 <html lang="en">
 	<!--begin::Head-->
 	<head><base href="../../"/>
-		<title>Saul Theme by Keenthemes</title>
+		<title>Reset Password | SIPAYU</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Saul HTML Free - Bootstrap 5 HTML Multipurpose Admin Dashboard Theme" />
-		<meta name="keywords" content="Saul, bootstrap, bootstrap 5, dmin themes, free admin themes, bootstrap admin, bootstrap dashboard" />
+		<meta name="description" content="SIPAYU" />
+		<meta name="keywords" content="sipayu" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
-		<meta property="og:title" content="Saul HTML Free - Bootstrap 5 HTML Multipurpose Admin Dashboard Theme" />
-		<meta property="og:url" content="https://keenthemes.com/products/saul-html-pro" />
-		<meta property="og:site_name" content="Keenthemes | Saul HTML Free" />
-		<link rel="canonical" href="https://preview.keenthemes.com/saul-html-free" />
-		<link rel="shortcut icon" href="public/assets/media/logos/favicon.ico" />
+		<meta property="og:title" content="SIPAYU" />
+		<meta property="og:url" content="//sipayu.indramayukab.go.id" />
+		<meta property="og:site_name" content="SIPAYU" />
+		<link rel="canonical" href="//sipayu.indramayukab.go.id" />
+		<link rel="shortcut icon" href="{{ url('images/sipayu-ori-logo.png') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="public/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="public/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
@@ -39,7 +27,7 @@ License: For each use you must have a valid license purchased only from above li
 	<!--begin::Body-->
 	<body id="kt_body" class="app-blank">
 		<!--begin::Theme mode setup on page load-->
-		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+		<!-- <script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script> -->
 		<!--end::Theme mode setup on page load-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
@@ -52,16 +40,16 @@ License: For each use you must have a valid license purchased only from above li
 						<!--begin::Header-->
 						<div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
 							<!--begin::Logo-->
-							<a href="../dist/index.html" class="py-2 py-lg-20">
-								<img alt="Logo" src="public/assets/media/logos/mail.svg" class="h-40px h-lg-50px" />
+							<a href="javascript:void(0)" class="py-2 py-lg-20">
+								<img alt="Logo" src="{{ url('images/main.png') }}" class="h-40px h-lg-550px" />
 							</a>
 							<!--end::Logo-->
 							<!--begin::Title-->
-							<h1 class="d-none d-lg-block fw-bold text-white fs-2qx pb-5 pb-md-10">Welcome to Saul HTML Free</h1>
+							<h1 class="d-none d-lg-block fw-bold text-white fs-2qx pb-5 pb-md-10">Welcome to SIPAYU</h1>
 							<!--end::Title-->
 							<!--begin::Description-->
-							<p class="d-none d-lg-block fw-semibold fs-2 text-white">Plan your blog post by choosing a topic creating
-							<br />an outline and checking facts</p>
+							<p class="d-none d-lg-block fw-semibold fs-2 text-white">Plan your destination travel by choosing a place
+							<br />a beautiful and healing places</p>
 							<!--end::Description-->
 						</div>
 						<!--end::Header-->
@@ -79,19 +67,20 @@ License: For each use you must have a valid license purchased only from above li
 						<!--begin::Wrapper-->
 						<div class="w-lg-550px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" data-kt-redirect-url="../dist/authentication/sign-in/basic.html" id="kt_new_password_form">
+							<form class="form w-100" novalidate="novalidate" data-kt-redirect-url="/login" id="kt_new_password_form">
 								<!--begin::Heading-->
 								<div class="text-center mb-10">
 									<!--begin::Title-->
-									<h1 class="text-dark mb-3">Setup New Password</h1>
+									<h1 class="text-dark mb-3">Buat Password Baru Anda</h1>
 									<!--end::Title-->
 									<!--begin::Link-->
-									<div class="text-gray-400 fw-semibold fs-4">Already have reset your password ?
-									<a href="../dist/authentication/sign-in/basic.html" class="link-danger fw-bold">Sign in here</a></div>
+									<div class="text-gray-400 fw-semibold fs-4">Sudah mengatur ulang kata sandi Anda ?
+									<a href="/login" class="link-danger fw-bold">Masuk di sini</a></div>
 									<!--end::Link-->
 								</div>
 								<!--begin::Heading-->
 								<!--begin::Input group-->
+								<input type="hidden" name="id" value="{{ app('request')->input('data-id') }}"/>
 								<div class="mb-10 fv-row" data-kt-password-meter="true">
 									<!--begin::Wrapper-->
 									<div class="mb-1">
@@ -118,13 +107,13 @@ License: For each use you must have a valid license purchased only from above li
 									</div>
 									<!--end::Wrapper-->
 									<!--begin::Hint-->
-									<div class="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols.</div>
+									<div class="text-muted">Gunakan 8 karakter atau lebih dengan campuran huruf, angka & simbol.</div>
 									<!--end::Hint-->
 								</div>
 								<!--end::Input group=-->
 								<!--begin::Input group=-->
 								<div class="fv-row mb-10">
-									<label class="form-label fw-bold text-dark fs-6">Confirm Password</label>
+									<label class="form-label fw-bold text-dark fs-6">Konfirmasi Password</label>
 									<input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="confirm-password" autocomplete="off" />
 								</div>
 								<!--end::Input group=-->
@@ -132,16 +121,16 @@ License: For each use you must have a valid license purchased only from above li
 								<div class="fv-row mb-10">
 									<div class="form-check form-check-custom form-check-solid form-check-inline">
 										<input class="form-check-input" type="checkbox" name="toc" value="1" />
-										<label class="form-check-label fw-semibold text-gray-700 fs-6">I Agree &
-										<a href="#" class="ms-1 link-danger">Terms and conditions</a>.</label>
+										<label class="form-check-label fw-semibold text-gray-700 fs-6">Saya setuju &
+										<a href="#" class="ms-1 link-danger">Syarat dan Ketentuan</a>.</label>
 									</div>
 								</div>
 								<!--end::Input group=-->
 								<!--begin::Action-->
 								<div class="text-center">
 									<button type="button" id="kt_new_password_submit" class="btn btn-lg btn-danger fw-bold">
-										<span class="indicator-label">Submit</span>
-										<span class="indicator-progress">Please wait...
+										<span class="indicator-label">Submit Ubah Password</span>
+										<span class="indicator-progress">Mohon tunggu...
 										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 									</button>
 								</div>
@@ -156,9 +145,7 @@ License: For each use you must have a valid license purchased only from above li
 					<div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
 						<!--begin::Links-->
 						<div class="d-flex flex-center fw-semibold fs-6">
-							<a href="https://keenthemes.com" class="text-muted text-hover-danger px-2" target="_blank">About</a>
-							<a href="https://devs.keenthemes.com" class="text-muted text-hover-danger px-2" target="_blank">Support</a>
-							<a href="https://keenthemes.com/products/saul-html-pro" class="text-muted text-hover-danger px-2" target="_blank">Purchase</a>
+							<a href="#" class="text-muted text-hover-danger px-2" target="_blank">Dinas Pariwisata, Pemuda dan Olahraga Kab. Indramayu | Gincu Media Telematika</a>
 						</div>
 						<!--end::Links-->
 					</div>
@@ -170,13 +157,16 @@ License: For each use you must have a valid license purchased only from above li
 		</div>
 		<!--end::Root-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "public/assets/";</script>
+		<script>var hostUrl = "assets/";</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="public/assets/plugins/global/plugins.bundle.js"></script>
-		<script src="public/assets/js/scripts.bundle.js"></script>
+		<script src="assets/plugins/global/plugins.bundle.js"></script>
+		<script src="assets/js/scripts.bundle.js"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="public/assets/js/custom/authentication/reset-password/new-password.js"></script>
+		<script>
+			var baseUrlApi = '';//window.location.hostname; //!= 'sipayu.indramayukab.go.id' ? `http://${window.location.hostname}:9090/public` : `//be-sipayu.indramayukab.go.id/public`;
+		</script>
+		<script src="assets/js/custom/authentication/reset-password/new-password.js"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

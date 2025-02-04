@@ -2,7 +2,7 @@
 <html lang="en">
 	<!--begin::Head-->
 	<head><base href="../../"/>
-		<title>Login | SIPAYU</title>
+		<title>Forgot Password | SIPAYU</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="SIPAYU" />
 		<meta name="keywords" content="sipayu" />
@@ -49,7 +49,7 @@
 		<!--end::Theme mode setup on page load-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
-			<!--begin::Authentication - Sign-in -->
+			<!--begin::Authentication - reset-password -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 				<!--begin::Aside-->
 				<div class="d-flex flex-column flex-lg-row-auto bg-danger w-xl-600px positon-xl-relative">
@@ -85,7 +85,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="" action="#">
+							<form class="form w-100" novalidate="novalidate" id="kt_password_reset_form" data-kt-redirect-url="/login" action="#">
 								<!--begin::Heading-->
 								<div class="text-center mb-10">
 									<!--begin::Title-->
@@ -98,36 +98,19 @@
 								<!--begin::Input group-->
 								<div class="fv-row mb-10">
 									<!--begin::Label-->
-									<label class="form-label fs-6 fw-bold text-dark">Email</label>
+									<label class="form-label fs-6 fw-bold text-dark">Lupa Password? Masukan Email Anda</label>
 									<!--end::Label-->
 									<!--begin::Input-->
-									<input class="form-control form-control-lg form-control-solid" type="text" name="email" autocomplete="off" />
-									<!--end::Input-->
-								</div>
-								<!--end::Input group-->
-								<!--begin::Input group-->
-								<div class="fv-row mb-10">
-									<!--begin::Wrapper-->
-									<div class="d-flex flex-stack mb-2">
-										<!--begin::Label-->
-										<label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
-										<!--end::Label-->
-										<!--begin::Link-->
-										<a href="forgot_password" class="link-danger fs-6 fw-bold">Lupa Password?</a>
-										<!--end::Link-->
-									</div>
-									<!--end::Wrapper-->
-									<!--begin::Input-->
-									<input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" />
+									<input class="form-control form-control-lg form-control-solid" placeholder="your@mail.com" type="email" name="email" autocomplete="off" />
 									<!--end::Input-->
 								</div>
 								<!--end::Input group-->
 								<!--begin::Actions-->
 								<div class="text-center">
 									<!--begin::Submit button-->
-									<button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-danger w-100 mb-5">
+									<button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-danger w-100 mb-5">
 										<span class="indicator-label">Submit</span>
-										<span class="indicator-progress">Mohon tunggu...
+										<span class="indicator-progress">Mohon Tunggu...
 										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 									</button>
 									<!--end::Submit button-->
@@ -151,7 +134,7 @@
 				</div>
 				<!--end::Body-->
 			</div>
-			<!--end::Authentication - Sign-in-->
+			<!--end::Authentication - reset-password-->
 		</div>
 		<!--end::Root-->
 		<!--begin::Javascript-->
@@ -167,7 +150,7 @@
 		<script>
 			var baseUrlApi = '';//window.location.hostname; //!= 'sipayu.indramayukab.go.id' ? `http://${window.location.hostname}:9090/public` : `//be-sipayu.indramayukab.go.id/public`;
 		</script>
-		<script src="{{ url('assets/js/custom/authentication/sign-in/general.js') }}"></script>
+		<script src="{{ url('assets/js/custom/authentication/reset-password/reset-password.js') }}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

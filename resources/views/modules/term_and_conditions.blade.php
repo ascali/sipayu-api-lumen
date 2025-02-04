@@ -220,13 +220,11 @@
 			
 			await axios.request(config)
 			.then(async (response) => {
-			  console.log(JSON.stringify(response.data));
 			  let data = response.data.data;
 			  $("#name").val(data.name);
 			  $("#description").val(data.description);
 			})
 			.catch((error) => {
-			  console.log(error);
 			  swalFailed();
 			});
 
@@ -275,7 +273,6 @@
 				
 				await axios.request(config)
 				.then((response) => {
-				  console.log(JSON.stringify(response.data));
 					Swal.fire({
 						text: "Berhasil!",
 						icon: "success",
@@ -287,7 +284,6 @@
 					});
 				})
 				.catch((error) => {
-				  console.log(error);
 				  	swalFailed();
 				});
 			}
@@ -315,7 +311,6 @@
 			
 			await axios.request(config)
 			.then(async (response) => {
-			  console.log(JSON.stringify(response.data));
 				await swalWithBootstrapButtons.fire({
 					title: "Berhasil!",
 					text: "Data Anda telah disubmit.",
@@ -326,7 +321,6 @@
 				}, 1000);
 			})
 			.catch((error) => {
-			  console.log(error);
 				swalFailed();
 			});
 		}

@@ -17,32 +17,33 @@
 		<meta property="og:url" content="//sipayu.indramayukab.go.id" />
 		<meta property="og:site_name" content="SIPAYU" />
 		<link rel="canonical" href="//sipayu.indramayukab.go.id" />
-		<link rel="shortcut icon" href="{{ url('public/images/sipayu-ori-logo.png') }}" />
+		<link rel="shortcut icon" href="{{ url('images/sipayu-ori-logo.png') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Vendor Stylesheets(used for this page only)-->
-		<link href="{{ url('public/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ url('public/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 		<!--end::Vendor Stylesheets-->
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="{{ url('public/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ url('public/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 
 		<!--begin::Javascript-->
-		<script>var hostUrl = "{{ url('public/assets') }}";</script>
+		<script>var hostUrl = "{{ url('assets') }}";</script>
 		<script>var baseUrl = "{{ url('') }}";</script>
-		<script>var baseUrlApi = '';//window.location.hostname; //!= 'sipayu.indramayukab.go.id' ? `http://${window.location.hostname}:8000/public` : `//be-sipayu.indramayukab.go.id/public`;</script>
-		<script>var urlImage = window.location.hostname; //baseUrlApi.replace('/public','');</script>
+		<script>var baseUrlApi = ""; //window.location.hostname; //!= 'sipayu.indramayukab.go.id' ? `http://${window.location.hostname}:8000/public` : `//be-sipayu.indramayukab.go.id/public`;</script>
+		<script>var urlImage = (window.location.hostname).replace('/public','');</script>
+		<script>var rmPub = (url='') => url != null ? url.replace('/public','') : '';</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="{{ url('public/assets/plugins/global/plugins.bundle.js') }}"></script>
-		<script src="{{ url('public/assets/js/scripts.bundle.js') }}"></script>
+		<script src="{{ url('assets/plugins/global/plugins.bundle.js') }}"></script>
+		<script src="{{ url('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Vendors Javascript(used for this page only)-->
-		<script src="{{ url('public/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+		<script src="{{ url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 		<!-- compress -->
 		<script src="//cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/base64-string.min.js"></script>
@@ -58,7 +59,7 @@
 		<script src="//cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
 		<script src="//cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 		<script src="//cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
-		<script src="{{ url('public/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+		<script src="{{ url('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 		<script src="//code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 
 		<!--end::Vendors Javascript-->

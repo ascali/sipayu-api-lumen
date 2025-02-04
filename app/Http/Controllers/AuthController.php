@@ -276,17 +276,17 @@ class AuthController extends Controller
     }
 
     public function forgot(Request $request) {
-
         $this->validate($request,[
             'email' => 'required'
         ]);
+
+        $status = 200;
 
         $query = DB::table('users')
             ->select("users.id", "users.name", "users.email")
             ->whereRaw('LOWER(users.email) = ?', (strtolower($request->email)))
             ->first();
-        
-        if ($query) {
+        if (!is_null($query)) {
             $message = 'Success';
             Mail::send('mail.mail', array("data" => $query, "date" => date("Y-m-d H:i:s")), function($message) use ($query) {
                 $message->to($query->email, $query->name)->subject('Lupa Kata Sandi - SIPAYU');
@@ -294,6 +294,7 @@ class AuthController extends Controller
             });
         } else {
             $query = [];
+            $status = 404;
             $message = 'Email not found!';
         }
 
@@ -301,28 +302,40 @@ class AuthController extends Controller
             true,
             $message,
             $query,
-            200
+            $status
         );
     }
 
-    public function resetPassword(Request $request, $id)
+    public function resetPassword(Request $request)
     {
         $this->validate($request,[
             'id' => 'required',
             'password' => 'required'
         ]);
-
+        $id = $request->input('id');
         $is_data = User::find($id);
-        if ($request->get('password') != "") {
-            $is_data->password = app('hash')->make($request->get('password'));
+
+        if (!is_null($is_data)) {
+            if ($request->input('password') != "") {
+                $is_data->password = app('hash')->make($request->input('password'));
+            }
+    
+            $save = $is_data->save();
+
+            $message = "Berhasil Merubah Password!";
+            $is_data = User::find($id);
+            $status = 200;
+        } else {
+            $message = "Gagal Merubah Password!";
+            $is_data = [];
+            $status = 404;
         }
-        $is_data->save();
 
         return $this->jsonResponse(
             true,
-            'Success',
+            $message,
             $is_data,
-            200
+            $status
         );
     }
 

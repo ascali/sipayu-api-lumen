@@ -206,7 +206,7 @@
 				"retrieve": true,
 				"columns": [
 					{ "data": "users_name" },
-					{ "data": null, "render": (row) => `<img src="${row.users_image}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />` },
+					{ "data": null, "render": (row) => `<img src="${rmPub(row.users_image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />` },
 					{ "data": "roles_name" },
 					{ "data": "users_email"  },
 					{ "data": "users_mobile_no" },
@@ -291,7 +291,6 @@
 			
 			await axios.request(config)
 			.then(async (response) => {
-			  console.log(JSON.stringify(response.data));
 			  let data = response.data.data;
 			  $("#name").val(data.name);
 			  $("#id_role").val(data.id_role).trigger("change");
@@ -301,12 +300,11 @@
 			  $("#mobile_no").val(data.mobile_no);
 			  $("#latitude").val(data.latitude);
 			  $("#longitude").val(data.longitude);
-			  $("#imageBase64").val(data.image);
-			  $("#ads-img-thumbnail").attr("src", `${data.image}`);
+			  $("#imageBase64").val(rmPub(data.image));
+			  $("#ads-img-thumbnail").attr("src", `${rmPub(data.image)}`);
 			  $('.centang').show();
 			})
 			.catch((error) => {
-			  console.log(error);
 			  swalFailed();
 			});
 
@@ -355,7 +353,6 @@
 				
 				await axios.request(config)
 				.then((response) => {
-				  console.log(JSON.stringify(response.data));
 					Swal.fire({
 						text: "Berhasil!",
 						icon: "success",
@@ -367,7 +364,6 @@
 					});
 				})
 				.catch((error) => {
-				  console.log(error);
 				  	swalFailed();
 				});
 			}
@@ -405,7 +401,6 @@
 			
 			await axios.request(config)
 			.then(async (response) => {
-			  console.log(JSON.stringify(response.data));
 				await swalWithBootstrapButtons.fire({
 					title: "Berhasil!",
 					text: "Data Anda telah disubmit.",
@@ -416,7 +411,6 @@
 				}, 1000);
 			})
 			.catch((error) => {
-			  console.log(error);
 				swalFailed();
 			});
 		}
@@ -438,7 +432,6 @@
 			const image = await process_image(file.files[0]);
 			document.querySelector("#ads-img-thumbnail").src = image;
 			document.querySelector("#imageBase64").value	 = image;
-			// console.log(image)
 		}
 
 		async function reduce_image_file_size(base64Str, MAX_WIDTH = 450, MAX_HEIGHT = 450) {
@@ -476,7 +469,6 @@
 				let fileReader = new FileReader();
 				fileReader.onload = (e) => resolve(fileReader.result);
 				fileReader.onerror = (error) => {
-					console.log(error)
 					alert('An Error occurred please try again, File might be corrupt');
 				};
 				fileReader.readAsDataURL(file);
@@ -492,16 +484,12 @@
 				if (old_size > min_image_size) {
 					const resized = await reduce_image_file_size(res);
 					const new_size = calc_image_size(resized)
-					console.log('new_size=> ', new_size, 'KB');
-					console.log('old_size=> ', old_size, 'KB');
 					dataBase64 = resized;
 				} else {
-					console.log('image already small enough')
 					dataBase64 = res;
 				}
 		
 			} else {
-				console.log('return err')
 				dataBase64 = '';
 			}
 			return dataBase64;

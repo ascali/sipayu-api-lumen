@@ -61,10 +61,10 @@ var KTAuthResetPassword = function () {
 
                         // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "We have send a password reset link to your email.",
+                            text: "Kami telah mengirimkan tautan pengaturan ulang kata sandi ke email Anda.",
                             icon: "success",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oke, aku paham!",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -83,10 +83,10 @@ var KTAuthResetPassword = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Maaf, sepertinya ada beberapa kesalahan yang terdeteksi, silakan coba lagi.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Oke, aku paham!",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
@@ -103,7 +103,7 @@ var KTAuthResetPassword = function () {
             e.preventDefault();
 
             // Validate form
-            validator.validate().then(function (status) {
+            validator.validate().then(async function (status) {
                 if (status == 'Valid') {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
@@ -112,16 +112,22 @@ var KTAuthResetPassword = function () {
                     submitButton.disabled = true;
 
                     // Check axios library docs: https://axios-http.com/docs/intro
-                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+
+                    let email = document.querySelector('[name="email"]').value;
+                    let formdata = new FormData();
+                    formdata.append("email", email);
+                    
+                    // axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                    await axios.post(`${baseUrlApi}/api/forgot`, formdata).then(function (response) {
                         if (response) {
                             form.reset();
 
                             // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "We have send a password reset link to your email.",
+                                text: "Kami telah mengirimkan tautan pengaturan ulang kata sandi ke email Anda.",
                                 icon: "success",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Oke, aku paham!",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
@@ -130,15 +136,17 @@ var KTAuthResetPassword = function () {
                             const redirectUrl = form.getAttribute('data-kt-redirect-url');
 
                             if (redirectUrl) {
-                                location.href = redirectUrl;
+                                setTimeout(() => {
+                                    location.href = redirectUrl;
+                                }, 2000);
                             }
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "Sorry, the email is incorrect, please try again.",
+                                text: "Maaf, emailnya salah, silakan coba lagi.",
                                 icon: "error",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Oke, aku paham!",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
@@ -146,10 +154,10 @@ var KTAuthResetPassword = function () {
                         }
                     }).catch(function (error) {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Maaf, emailnya salah, silakan coba lagi.",
                             icon: "error",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oke, aku paham!",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -164,10 +172,10 @@ var KTAuthResetPassword = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Maaf, sepertinya ada beberapa kesalahan yang terdeteksi, silakan coba lagi.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Oke, aku paham!",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
@@ -195,11 +203,11 @@ var KTAuthResetPassword = function () {
 
             handleForm();
 
-            if (isValidUrl(form.getAttribute('action'))) {
-                handleSubmitAjax(); // use for ajax submit
-            } else {
-                handleSubmitDemo(); // used for demo purposes only
-            }
+            handleSubmitAjax(); // use for ajax submit
+            // if (isValidUrl(form.getAttribute('action'))) {
+            // } else {
+            //     handleSubmitDemo(); // used for demo purposes only
+            // }
         }
     };
 }();
