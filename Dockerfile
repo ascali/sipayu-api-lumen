@@ -5,12 +5,11 @@ USER root
 
 # Install required extensions
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
+    libpq-dev \
     zip \
     unzip \
-    && docker-php-ext-install \
-    pdo_pgsql \
-    zip
+    git \
+    && docker-php-ext-install pdo pdo_pgsql
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
