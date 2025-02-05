@@ -43,8 +43,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/pear/
-    
-
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -54,6 +52,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Configure Apache
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite ssl # Enable SSL module
+    
+RUN mkdir -p /etc/ssl/certs && apt-get install --reinstall ca-certificates && update-ca-certificates
 
 # Set working directory
 WORKDIR /var/www/html
@@ -68,15 +68,15 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
+# Copy PHP configuration file for SMTP
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
 # Copy auto-renew script
 COPY renew-certs.sh /usr/local/bin/renew-certs.sh
 RUN chmod +x /usr/local/bin/renew-certs.sh
 
 # Add cron job for auto-renew
 RUN echo "0 0 * * * /usr/local/bin/renew-certs.sh" | crontab -
-
-# Copy PHP configuration file for SMTP
-COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
 # Copy msmtp configuration
 COPY msmtprc /etc/msmtprc
