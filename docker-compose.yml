@@ -9,9 +9,9 @@ services:
       - ./letsencrypt:/etc/letsencrypt # Volume untuk menyimpan sertifikat
       - ./ssl:/etc/ssl # Volume untuk menyimpan file SSL
     environment:
-      - APP_ENV=local
+      - APP_ENV=production
       - APP_DEBUG=true
-      - APP_URL=http://localhost
+      - APP_URL=http://sipayu.gincumediatek.com
       - DB_CONNECTION=pgsql
       - DB_HOST=27.112.78.145
       - DB_PORT=5432
