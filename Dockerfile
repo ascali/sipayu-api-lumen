@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y --no-install-recommends libgmp-dev \
     && docker-php-ext-install gmp \
     # pdo_mysql
-    && docker-php-ext-install pdo_mysql mbstring \
+    # && docker-php-ext-install pdo_mysql mbstring \
+    && docker-php-ext-install mbstring \
     # pdo
     && docker-php-ext-install pdo \
     # opcache

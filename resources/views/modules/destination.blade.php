@@ -215,10 +215,9 @@
 							let image = isJsonString(row.image);
 							if (image != false) {
 								image = JSON.parse(row.image);
-								console.log(image)
 								let images = '';
 								images = '<div class="row">';
-								for (let i = 0; i < image.length; i++) {
+								for (let i = 0; i <= image.length; i++) {
 									const element = image[i];
 									// if (element != "") {
 									// }
@@ -229,9 +228,9 @@
 								images += '</div>';
 								img = images;
 							} 
-							// else {
-							// 	img = `<img src="${rmPub(row.image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
-							// }
+							else {
+								img = `<img src="${rmPub(row.image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
+							}
 							return img;
 						}
 					},
