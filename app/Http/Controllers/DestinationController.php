@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
 use App\Models\Destination;
 
@@ -15,57 +16,91 @@ class DestinationController extends Controller
 
     public function list(Request $request)
     {
-        $query = [];
-        $page = $request->input('page') != '' ? $request->input('page') : 1;
-        $limit = $request->input('limit') != '' ? $request->input('limit') : 10;
-        $id_toi = $request->input('id_toi');
+        // Mengambil parameter request
+        $page  = $request->input('page') ?: 1;
+        $limit = $request->input('limit') ?: 10;
         
+        // Membuat cache key yang unik berdasarkan semua parameter request
+        $cacheKey = 'destination_list_' . md5(json_encode($request->all()));
+        
+        // Cek apakah hasil query sudah ada di cache Redis
+        if ($cachedData = Redis::connection('default')->get($cacheKey)) {
+            // Jika ada, kembalikan data dari cache
+            return $this->jsonResponse(
+                true,
+                'Success (from cache)',
+                json_decode($cachedData, true),
+                200
+            );
+        }
+    
+        // Jika data belum dicache, lakukan query ke database
         $query = Destination::query();
         $query = $query->select(
-                'destinations.id',
-                'destinations.id_toi',
-                'destinations.name',
-                'type_of_interests.name as type_of_interests_name',
-                'destinations.image',
-                'destinations.contact',
-                'destinations.description',
-                'destinations.location',
-                'destinations.latitude',
-                'destinations.longitude',
-                'destinations.created_at',
+            'destinations.id',
+            'destinations.id_toi',
+            'destinations.name',
+            'type_of_interests.name as type_of_interests_name',
+            'destinations.image',
+            'destinations.contact',
+            'destinations.description',
+            'destinations.location',
+            'destinations.latitude',
+            'destinations.longitude',
+            'destinations.created_at'
         );
-
+    
         $query = $query->join('type_of_interests', 'destinations.id_toi', '=', 'type_of_interests.id');
-
         $query = $query->whereNull('destinations.deleted_at');
-        
-        $query->when($request->id_toi != null, function ($query) use ($request) {
-            $query->where('destinations.id_toi', '=', $request->id_toi);
-        });
-
-        $query->when($request->search != null, function ($query) use ($request) {
-            $query->whereRaw('LOWER(destinations.name) LIKE (?)', ['%' . strtolower($request->search) . '%'])
-                  ->orWhereRaw('LOWER(destinations.description) LIKE (?)', ['%' . strtolower($request->search) . '%'])
-                  ->orWhereRaw('LOWER(destinations.location) LIKE (?)', ['%' . strtolower($request->search) . '%']);
-        });
-
-        $query = $query->orderBy('destinations.id', 'desc')
-            ->limit($limit)
-            ->offset(($page - 1) * $limit)
-            ->get()
-            ->toArray();
-        
-        foreach ($query as $key => $value) {
-            $rating = DB::select("select ROUND( AVG(r.rating)::numeric, 2 ) as rating from ratings r where r.id_destination = ? limit 1;", [$value['id']]);
-            $review = DB::select("select COUNT(r.id) as review from reviews r where r.id_destination = ? limit 1;", [$value['id']]);
-            $query[$key]['rating'] = count($rating) > 0 ? (float) $rating[0]->rating : 0;
-            $query[$key]['review'] = count($review) > 0 ? (int) $review[0]->review : 0;
+    
+        // Filter berdasarkan id_toi jika ada
+        if ($request->has('id_toi')) {
+            $query->where('destinations.id_toi', '=', $request->input('id_toi'));
         }
-
+    
+        // Filter berdasarkan search (pencarian)
+        if ($request->has('search')) {
+            $search = strtolower($request->input('search'));
+            $query->where(function ($q) use ($search) {
+                $q->whereRaw('LOWER(destinations.name) LIKE ?', ['%' . $search . '%'])
+                  ->orWhereRaw('LOWER(destinations.description) LIKE ?', ['%' . $search . '%'])
+                  ->orWhereRaw('LOWER(destinations.location) LIKE ?', ['%' . $search . '%']);
+            });
+        }
+    
+        // Eksekusi query dengan paginasi
+        $results = $query->orderBy('destinations.id', 'desc')
+                         ->limit($limit)
+                         ->offset(($page - 1) * $limit)
+                         ->get()
+                         ->toArray();
+    
+        // Untuk setiap destination, ambil rating dan review terkait
+        foreach ($results as $key => $value) {
+            $rating = DB::select(
+                "SELECT ROUND(AVG(r.rating)::numeric, 2) as rating 
+                 FROM ratings r 
+                 WHERE r.id_destination = ? LIMIT 1",
+                 [$value['id']]
+            );
+            $review = DB::select(
+                "SELECT COUNT(r.id) as review 
+                 FROM reviews r 
+                 WHERE r.id_destination = ? LIMIT 1",
+                 [$value['id']]
+            );
+    
+            $results[$key]['rating'] = !empty($rating) ? (float) $rating[0]->rating : 0;
+            $results[$key]['review'] = !empty($review) ? (int) $review[0]->review : 0;
+        }
+    
+        // Simpan hasil query ke Redis dengan masa berlaku (misalnya 60 detik)
+        Redis::connection('default')->setex($cacheKey, 60, json_encode($results));
+        // Kembalikan hasil response
         return $this->jsonResponse(
             true,
             'Success',
-            $query,
+            $results,
             200
         );
     }

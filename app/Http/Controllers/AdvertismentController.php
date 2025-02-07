@@ -19,9 +19,9 @@ class AdvertismentController extends Controller
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
 
-        if ($request->input('page')!='' && $request->input('limit')!='') {
-            $is_data = Advertisment::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        }
+        // if ($request->input('page')!='' && $request->input('limit')!='') {
+        // }
+        $is_data = Advertisment::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
         // $is_data = Advertisment::all();
         return $this->jsonResponse(
             true,

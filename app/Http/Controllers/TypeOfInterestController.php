@@ -38,7 +38,9 @@ class TypeOfInterestController extends Controller
 
     public function category_list(Request $request)
     {
-        $is_data = Type_of_interest::where('id_parent', $request->input('id_parent'))->get();
+        $is_data = Type_of_interest::whereNotNull('type_of_interests.id_parent')
+            ->where('id_parent', $request->input('id_parent'))
+            ->get();
         return $this->jsonResponse(
             true,
             'Success',

@@ -19,9 +19,9 @@ class EbrosureController extends Controller
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
 
-        if ($request->input('page')!='' && $request->input('limit')!='') {
+        // if ($request->input('page')!='' && $request->input('limit')!='') {
             $is_data = E_brosure::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        }
+        // }
         // $is_data = E_brosure::all();
         return $this->jsonResponse(
             true,

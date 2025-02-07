@@ -62,7 +62,10 @@ $app->singleton(
 $app->configure('app');
 
 $app->configure('mail');
- 
+
+$app->configure('database');
+$app->configure('cache');
+
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
 $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
  
@@ -107,6 +110,9 @@ $app->register(App\Providers\MinioStorageServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Illuminate\Cache\CacheServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
