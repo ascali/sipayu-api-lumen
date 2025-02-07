@@ -10,7 +10,7 @@ services:
       - ./ssl:/etc/ssl # Volume untuk menyimpan file SSL
     environment:
       - APP_ENV=production
-      - APP_DEBUG=true
+      - APP_DEBUG=false
       - APP_URL=http://sipayu.gincumediatek.com
       - DB_CONNECTION=pgsql
       - DB_HOST=27.112.78.145
