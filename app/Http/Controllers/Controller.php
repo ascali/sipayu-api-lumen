@@ -85,7 +85,8 @@ class Controller extends BaseController
             // Misal: simpan di direktori public/storage
             $localPath = $this->public_path('storage') . DIRECTORY_SEPARATOR . $file_name;
             // Decode string base64 dan simpan ke file lokal
-            file_put_contents($localPath, file_get_contents($base64_string));
+            // file_put_contents($localPath, file_get_contents($base64_string));
+            file_put_contents($this->public_path('storage') . $file_name, file_get_contents($base64_string));
         
             // --- Upload file ke MinIO ---
             $disk = Storage::disk('minio');

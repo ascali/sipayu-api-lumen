@@ -72,7 +72,7 @@ class TypeOfInterestSeeder extends Seeder
             return rtrim(app()->basePath('public/'.$path), '/');
     }
 
-    public function uploadToStorageMinio($image = "")
+    public function uploadToStorageMinio($no = "1", $image = "")
     {
         // Pastikan variabel $image berisi string base64 (misalnya "data:image/png;base64,iVBORw0KGgo...")
         if ($image != "") {
@@ -90,7 +90,7 @@ class TypeOfInterestSeeder extends Seeder
             $file_type = isset($mime_split[1]) ? $mime_split[1] : 'png'; // default png jika tidak ada
         
             // Buat nama file unik berdasarkan timestamp
-            $file_name = date("YmdHis") . "." . $file_type;
+            $file_name = $no . "_" . date("YmdHis") . "." . $file_type;
         
             // --- Simpan file ke penyimpanan lokal ---
             // Misal: simpan di direktori public/storage
