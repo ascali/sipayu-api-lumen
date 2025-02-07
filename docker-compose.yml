@@ -27,6 +27,21 @@ services:
       - MAIL_ENCRYPTION=tls
       - MAIL_FROM_ADDRESS=disparaindramayu@gmail.com
       - MAIL_FROM_NAME=SIPAYU
+      - QUEUE_CONNECTION=sync
+      - MINIO_KEY=2gzpw0kJr2ET4idkZjqD
+      - MINIO_SECRET=gpqPNHeHQ2X8fjIMKFRfO50HUiwLZUrHsAwXmhti
+      - MINIO_REGION=us-east-1
+      - MINIO_ENDPOINT=https://minio-storage-sipayu.gincumediatek.com
+      - MINIO_BUCKET=sipayu-production
+      - MINIO_VERSION=latest
+      - REDIS_CLIENT=predis
+      - REDIS_HOST=27.112.78.145
+      - REDIS_PASSWORD=ssOTa8RdP9RMQ2R74sfCFysBsELtSAFrr4oegHc2TQHgTxvxF7ql2GjXlKApgy2T
+      - REDIS_PORT=6389
+      - REDIS_DATABASE=0
+      - REDIS_CACHE_DATABASE=1
+      - CACHE_REDIS_CONNECTION=default
+      - CACHE_DRIVER=redis
     networks:
       - lumen-network
 
