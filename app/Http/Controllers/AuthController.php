@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
+
 class AuthController extends Controller
 {
     public function __construct()
@@ -197,7 +201,8 @@ class AuthController extends Controller
             'email' => 'required'
         ]);
 
-        $upload_to_storage = $this->uploadToStorage($request->input('image'));
+        // $upload_to_storage = $this->uploadToStorage($request->input('image'));
+        $upload_to_storage = $this->uploadToStorageMinio($request->input('image'));
 
         $is_data = new User();
         $is_data->name = $request->input('name');
@@ -239,7 +244,8 @@ class AuthController extends Controller
             'email' => 'required'
         ]);
 
-        $upload_to_storage = $this->uploadToStorage($request->input('image'));
+        // $upload_to_storage = $this->uploadToStorage($request->input('image'));
+        $upload_to_storage = $this->uploadToStorageMinio($request->input('image'));
 
         $is_data = User::find($id);
         $is_data->name = $request->input('name');
@@ -339,4 +345,52 @@ class AuthController extends Controller
         );
     }
 
+
+    private function rules()
+    {
+        // 'dokumen' => 'required|max:10240|mimes:doc,docx,xlsx,xls,ppt,pptx,pdf,zip,png,jpg,jpeg,svg',
+        $rules = [
+            'dokumen' => 'required|max:10240|mimes:doc,docx,xlsx,xls,ppt,pptx,pdf,zip,png,jpg,jpeg,svg',
+        ];
+
+        return $rules;
+    }
+
+    public function storeMinio(Request $request)
+    {
+        Storage::disk('minio')->put('avatars/1', $fileContents);
+
+        // $this->validate($request, $this->rules());
+
+        $disk = Storage::disk('minio');
+
+        // if ($request->hasFile('dokumen')) {
+        //     $file       = $request->file('dokumen');
+        //     $fileSize   = $file->getSize();
+        //     $mimeType   = $file->getMimeType();
+
+        //     # File Format sesuai ext
+        //     $file_name_storage = time() . '-' . Str::uuid() . '.' .  $file->getClientOriginalExtension();
+
+        //     // Upload ke Minio
+        //     $dataS3 = $disk->put($file_name_storage, file_get_contents($file));
+
+        //     // $data = Upload::create([
+        //     //     'file_name'     => $file_name_storage,
+        //     //     'file_size'     => $fileSize,
+        //     //     'mimetypes'     => $mimeType,
+        //     // ]);
+
+        //     $data_generate = $this->generate_url($file_name_storage, $mimeType);
+        // }
+
+        // return  $data_generate;
+
+        // // return response()->json([
+        // //     'message'       => 'Dokumen berhasil diunggah ke minio',
+        // //     'data_upload'   => $dataS3,
+        // //     'data'          => $data,
+        // //     'generate_url'  => $data_generate,
+        // // ]);
+    }
 }

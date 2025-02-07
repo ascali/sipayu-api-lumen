@@ -65,13 +65,14 @@ return [
             'url'           => env('AWS_URL'),
             'endpoint'      => env('AWS_ENDPOINT'),
         ],
-
+        
         'minio' => [
             'driver'        => 'minio',
             'key'           => env('MINIO_KEY', 'WcOWIlNWC8UJhubRaKVR'),
             'secret'        => env('MINIO_SECRET', 'ivSAb8PwupfQjnRtno6ffj48VZkeWR8Mfb2RUE3a'),
             'region'        => env('MINIO_REGION', 'us-east-1'),
             'bucket'        => env('MINIO_BUCKET', 'sipayu-dev'),
+            'version'        => env('MINIO_VERSION', 'latest'),
             'endpoint'      => env('MINIO_ENDPOINT', 'https://minio-storage-sipayu.27.112.78.145.sslip.io')
         ],
 

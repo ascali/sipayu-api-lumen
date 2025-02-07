@@ -135,12 +135,12 @@ class DestinationController extends Controller
         if (count(json_decode($images)) > 1) {
             $isImage = [];
             for ($i=0; $i < count(json_decode($images)); $i++) { 
-                $toStorage = $this->uploadToStorage(json_decode($images)[$i]);
+                $toStorage = $this->uploadToStorageMinio(json_decode($images)[$i]);
                 array_push($isImage, $toStorage);
             }
             $images = json_encode($isImage);
         } else {
-            $images = $this->uploadToStorage($request->input('image'));
+            $images = $this->uploadToStorageMinio($request->input('image'));
         }
 
         $is_data = new Destination();
@@ -195,13 +195,13 @@ class DestinationController extends Controller
         if (count(json_decode($images)) > 1) {
             $isImage = [];
             for ($i=0; $i < count(json_decode($images)); $i++) { 
-                $toStorage = $this->uploadToStorage(json_decode($images)[$i]);
+                $toStorage = $this->uploadToStorageMinio(json_decode($images)[$i]);
                 array_push($isImage, $toStorage);
             }
             $images = json_encode($isImage);
         } else {
             $total = count(json_decode($images));
-            $images = $total == 1 ? $this->uploadToStorage($request->input('image')) : '';
+            $images = $total == 1 ? $this->uploadToStorageMinio($request->input('image')) : '';
         }
 
         $is_data = Destination::find($id);

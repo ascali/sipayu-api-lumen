@@ -129,7 +129,7 @@ class ReviewController extends Controller
         $is_data->id_rating = $id_rating;
         $is_data->review = $request->input('review');
         $is_data->verify = 0;
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->save();
 
         return $this->jsonResponse(
@@ -178,7 +178,7 @@ class ReviewController extends Controller
         if ($request->input('verify') != '') {
             $is_data->verify = $request->input('verify') == "0" ? false : true;
         }
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->save();
 
         return $this->jsonResponse(
