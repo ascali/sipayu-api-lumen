@@ -215,21 +215,23 @@
 							let image = isJsonString(row.image);
 							if (image != false) {
 								image = JSON.parse(row.image);
+								console.log(image)
 								let images = '';
 								images = '<div class="row">';
 								for (let i = 0; i < image.length; i++) {
 									const element = image[i];
-									if (element != "") {
-										images += `<div class="col-12">
-											<img id="ads-img-thumbnail" src="${rmPub(element)}" class="img-thumbnail mx-auto d-block" alt="..." style="width: 100px;>
-										</div>`;
-									}
+									// if (element != "") {
+									// }
+									images += `<div class="col-12">
+										<img id="ads-img-thumbnail" src="${rmPub(element)}" class="img-thumbnail mx-auto d-block" alt="..." style="width: 100px;>
+									</div>`;
 								}
 								images += '</div>';
 								img = images;
-							} else {
-								img = `<img src="${rmPub(row.image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
-							}
+							} 
+							// else {
+							// 	img = `<img src="${rmPub(row.image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
+							// }
 							return img;
 						}
 					},
@@ -449,11 +451,12 @@
 		}
 
 		async function submitData() {
-			if ($("#imageBase64").val()!='' || multipleImages.length > 1) {
+			if ($("#imageBase64").val()!='' || multipleImages.length > 0) {
+				//   "image": multipleImages.length == 1 ? $("#imageBase64").val() : JSON.stringify(multipleImages.filter(val => val != '')),
 				let data = {
 				  "name": $("#name").val(),
 				  "id_toi": $("#id_toi").val(),
-				  "image": multipleImages.length == 1 ? $("#imageBase64").val() : JSON.stringify(multipleImages.filter(val => val != '')),
+				  "image": JSON.stringify(multipleImages.filter(val => val != '')),
 				  "contact": $("#contact").val(),
 				  "description": $("#description").val(),
 				  "location": $("#location").val(),
@@ -515,7 +518,7 @@
 			$("#allImages").html('Loading.. | Sedang mempersiapkan gambar!');
 			const file = document.getElementById('file');
 			const jumlahImage = Object.keys(file.files).length;
-			if (jumlahImage > 1) {
+			if (jumlahImage > 0) {
 				multipleImages = [];
 				for (const key in file.files) {
 					if (file.files[key] != "") {

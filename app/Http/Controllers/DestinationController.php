@@ -132,7 +132,7 @@ class DestinationController extends Controller
         
         $images = $request->input('image');
 
-        if (count(json_decode($images)) > 1) {
+        if (count(json_decode($images)) > 0) {
             $isImage = [];
             for ($i=0; $i < count(json_decode($images)); $i++) { 
                 $toStorage = $this->uploadToStorageMinio(json_decode($images)[$i]);
@@ -192,7 +192,7 @@ class DestinationController extends Controller
 
         $images = $request->input('image');
 
-        if (count(json_decode($images)) > 1) {
+        if (count(json_decode($images)) > 0) {
             $isImage = [];
             for ($i=0; $i < count(json_decode($images)); $i++) { 
                 $toStorage = $this->uploadToStorageMinio(json_decode($images)[$i]);
