@@ -92,6 +92,11 @@ class DestinationController extends Controller
     
             $results[$key]['rating'] = !empty($rating) ? (float) $rating[0]->rating : 0;
             $results[$key]['review'] = !empty($review) ? (int) $review[0]->review : 0;
+
+            // Ubah string array menjadi array
+            if (is_string($results[$key]['image']) && $this->isJson($results[$key]['image'])) {
+                $results[$key]['image'] = json_decode($results[$key]['image'], true);
+            }
         }
     
         // Simpan hasil query ke Redis dengan masa berlaku (misalnya 60 detik)
@@ -103,6 +108,11 @@ class DestinationController extends Controller
             $results,
             200
         );
+    }
+
+    private function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 
     public function list_dt(Request $request)
