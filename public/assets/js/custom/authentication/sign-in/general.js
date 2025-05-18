@@ -71,10 +71,10 @@ var KTSigninGeneral = function () {
 
                         // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "You have successfully logged in!",
+                            text: "Anda telah berhasil masuk!",
                             icon: "success",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oke, aku paham!",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -90,10 +90,10 @@ var KTSigninGeneral = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Maaf, sepertinya ada beberapa kesalahan yang terdeteksi, silakan coba lagi.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Oke, aku paham!",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
@@ -131,10 +131,10 @@ var KTSigninGeneral = function () {
 
                             // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "You have successfully logged in!",
+                                text: "Anda telah berhasil masuk!",
                                 icon: "success",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Oke, aku paham!",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
@@ -149,22 +149,21 @@ var KTSigninGeneral = function () {
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "Sorry, the email or password is incorrect, please try again!!.",
+                                text: "Maaf, email atau password salah, silakan coba lagi!!.",
                                 icon: "error",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Oke, aku paham!",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
                             });
                         }
                     }).catch(function (error) {
-                        console.log("🚀 ~ file: general.js:163 ~ error:", error)
                         Swal.fire({
-                            text: "Sorry, the email or password is incorrect, please try again!!!.",
+                            text: "Maaf, email atau password salah, silakan coba lagi!!!.",
                             icon: "error",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oke, aku paham!",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -179,10 +178,10 @@ var KTSigninGeneral = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Maaf, sepertinya ada beberapa kesalahan yang terdeteksi, silakan coba lagi.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Oke, aku paham!",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }

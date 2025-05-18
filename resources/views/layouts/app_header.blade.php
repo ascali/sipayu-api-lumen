@@ -13,8 +13,8 @@
                 <!--end::Sidebar mobile toggle-->
                 <!--begin::Logo-->
                 <a href="../dist/index.html" class="app-sidebar-logo">
-                    <img alt="Logo" src="{{ url('public/images/sipayu-ori-inline.png') }}" class="h-30px theme-light-show" />
-                    <img alt="Logo" src="{{ url('public/images/sipayu-ori-inline.png') }}" class="h-30px theme-dark-show" />
+                    <img alt="Logo" src="{{ url('images/sipayu-ori-inline.png') }}" class="h-30px theme-light-show" />
+                    <img alt="Logo" src="{{ url('images/sipayu-ori-inline.png') }}" class="h-30px theme-dark-show" />
                 </a>
                 <!--end::Logo-->
                 <!--begin::Sidebar toggle-->
@@ -77,7 +77,7 @@
                 <div class="app-navbar-item ms-3 ms-lg-4 me-lg-2" id="kt_header_user_menu_toggle">
                     <!--begin::Menu wrapper-->
                     <div class="cursor-pointer symbol symbol-30px symbol-lg-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        <!-- <img src="public/assets/media/avatars/300-2.jpg" alt="user" /> -->
+                        <!-- <img src="assets/media/avatars/300-2.jpg" alt="user" /> -->
                         <i class="ki-duotone ki-user fs-1">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -94,7 +94,7 @@
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                    <!-- <img alt="Logo" src="public/assets/media/avatars/300-2.jpg" /> -->
+                                    <!-- <img alt="Logo" src="assets/media/avatars/300-2.jpg" /> -->
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->

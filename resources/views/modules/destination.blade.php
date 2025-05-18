@@ -217,18 +217,19 @@
 								image = JSON.parse(row.image);
 								let images = '';
 								images = '<div class="row">';
-								for (let i = 0; i < image.length; i++) {
+								for (let i = 0; i <= image.length; i++) {
 									const element = image[i];
-									if (element != "") {
-										images += `<div class="col-12">
-											<img id="ads-img-thumbnail" src="${element}" class="img-thumbnail mx-auto d-block" alt="..." style="width: 100px;>
-										</div>`;
-									}
+									// if (element != "") {
+									// }
+									images += `<div class="col-12">
+										<img id="ads-img-thumbnail" src="${rmPub(element)}" class="img-thumbnail mx-auto d-block" alt="..." style="width: 100px;>
+									</div>`;
 								}
 								images += '</div>';
 								img = images;
-							} else {
-								img = `<img src="${row.image}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
+							} 
+							else {
+								img = `<img src="${rmPub(row.image)}" class="rounded mx-auto d-block" alt="" style="width: 100px;" />`;
 							}
 							return img;
 						}
@@ -339,7 +340,6 @@
 			
 			await axios.request(config)
 			.then(async (response) => {
-			//   console.log(JSON.stringify(response.data));
 			  let data = response.data.data;
 			  $("#name").val(data.name);
 			  await getToI(data.id_toi);
@@ -363,9 +363,9 @@
 				  $("#allImages").html(images);
 
 				} else {
-					$("#imageBase64").val(data.image);
-					// $("#ads-img-thumbnail").attr("src", `${data.image}`);
-					$("#allImages").html(`<img id="ads-img-thumbnail" src="${data.image}" class="img-thumbnail mx-auto d-block" alt="...">`);
+					$("#imageBase64").val(rmPub(data.image));
+					// $("#ads-img-thumbnail").attr("src", `${rmPub(data.image)}`);
+					$("#allImages").html(`<img id="ads-img-thumbnail" src="${rmPub(data.image)}" class="img-thumbnail mx-auto d-block" alt="...">`);
 				}
 			  
 			  $("#location").val(data.location);
@@ -374,7 +374,6 @@
 			  $("#longitude").val(data.longitude);
 			})
 			.catch((error) => {
-			  console.log(error);
 			  swalFailed();
 			});
 
@@ -432,7 +431,6 @@
 				
 				await axios.request(config)
 				.then((response) => {
-				  console.log(JSON.stringify(response.data));
 					Swal.fire({
 						text: "Berhasil!",
 						icon: "success",
@@ -444,7 +442,6 @@
 					});
 				})
 				.catch((error) => {
-				  console.log(error);
 				  	swalFailed();
 				});
 			}
@@ -453,11 +450,12 @@
 		}
 
 		async function submitData() {
-			if ($("#imageBase64").val()!='' || multipleImages.length > 1) {
+			if ($("#imageBase64").val()!='' || multipleImages.length > 0) {
+				//   "image": multipleImages.length == 1 ? $("#imageBase64").val() : JSON.stringify(multipleImages.filter(val => val != '')),
 				let data = {
 				  "name": $("#name").val(),
 				  "id_toi": $("#id_toi").val(),
-				  "image": multipleImages.length == 1 ? $("#imageBase64").val() : JSON.stringify(multipleImages.filter(val => val != '')),
+				  "image": JSON.stringify(multipleImages.filter(val => val != '')),
 				  "contact": $("#contact").val(),
 				  "description": $("#description").val(),
 				  "location": $("#location").val(),
@@ -479,7 +477,6 @@
 				
 				await axios.request(config)
 				.then(async (response) => {
-				  console.log(JSON.stringify(response.data));
 					await swalWithBootstrapButtons.fire({
 						title: "Berhasil!",
 						text: "Data Anda telah disubmit.",
@@ -494,7 +491,6 @@
 					$("#modalForm").modal("hide");
 				})
 				.catch((error) => {
-				  console.log(error);
 					swalFailed();
 				});
 			} else {
@@ -520,9 +516,8 @@
 		async function preview_image() {
 			$("#allImages").html('Loading.. | Sedang mempersiapkan gambar!');
 			const file = document.getElementById('file');
-			// console.log(file.files)
 			const jumlahImage = Object.keys(file.files).length;
-			if (jumlahImage > 1) {
+			if (jumlahImage > 0) {
 				multipleImages = [];
 				for (const key in file.files) {
 					if (file.files[key] != "") {
@@ -531,7 +526,6 @@
 					}
 				}
 
-				// console.log(multipleImages)
 				let images = '';
 				for (let i = 0; i < multipleImages.length; i++) {
 					const element = multipleImages[i];
@@ -586,7 +580,6 @@
 		// 		let fileReader = new FileReader();
 		// 		fileReader.onload = (e) => resolve(fileReader.result);
 		// 		fileReader.onerror = (error) => {
-		// 			console.log(error)
 		// 			alert('An Error occurred please try again, File might be corrupt');
 		// 		};
 		// 		fileReader.readAsDataURL(file);
@@ -624,7 +617,6 @@
 		async function process_image(file, min_image_size = 300) {
 			return imageToBase64(file)
 				.then(async (base64String) => {
-					// console.log('Base64:', base64String);
 					// Gunakan base64String untuk menampilkan atau memproses gambar
 					let dataBase64 = "";
 					const old_size = calc_image_size(base64String);
@@ -653,15 +645,11 @@
 		// 		if (old_size > min_image_size) {
 		// 			const resized = await reduce_image_file_size(res);
 		// 			const new_size = calc_image_size(resized)
-		// 			// console.log('new_size=> ', new_size, 'KB');
-		// 			// console.log('old_size=> ', old_size, 'KB');
 		// 			dataBase64 = resized;
 		// 		} else {
-		// 			// console.log('image already small enough')
 		// 			dataBase64 = res;
 		// 		}
 		// 	} else {
-		// 		console.log('return err')
 		// 		dataBase64 = '';
 		// 	}
 		// 	return dataBase64;

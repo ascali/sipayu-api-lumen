@@ -2,8 +2,8 @@
 <div id="kt_app_footer" class="app-footer align-items-center justify-content-center justify-content-md-between flex-column flex-md-row py-3">
     <!--begin::Copyright-->
     <div class="text-dark order-2 order-md-1">
-        <span class="text-muted fw-semibold me-1">2023&copy;</span>
-        <a href="javascript:void(0)" target="_blank" class="text-gray-800 text-hover-primary">SIPAYU | Gincu Media Telematika</a>
+        <span class="text-muted fw-semibold me-1">&copy;</span>
+        <a href="javascript:void(0)" target="_blank" class="text-gray-800 text-hover-primary">SIPAYU | Dinas Pariwisata, Pemuda dan Olahraga Kab. Indramayu | Gincu Media Telematika</a>
     </div>
     <!--end::Copyright-->
     <!--begin::Menu-->

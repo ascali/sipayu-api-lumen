@@ -38,7 +38,9 @@ class TypeOfInterestController extends Controller
 
     public function category_list(Request $request)
     {
-        $is_data = Type_of_interest::where('id_parent', $request->input('id_parent'))->get();
+        $is_data = Type_of_interest::whereNotNull('type_of_interests.id_parent')
+            ->where('id_parent', $request->input('id_parent'))
+            ->get();
         return $this->jsonResponse(
             true,
             'Success',
@@ -130,7 +132,7 @@ class TypeOfInterestController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'image' => 'required',
-            'description' => 'required'
+            // 'description' => 'required'
         ]);
 
         $is_data = new Type_of_interest();
@@ -138,7 +140,7 @@ class TypeOfInterestController extends Controller
             $is_data->id_parent = $request->input('id_parent');
         }
         $is_data->name = $request->input('name');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->description = $request->input('description');
         $is_data->save();
 
@@ -166,7 +168,7 @@ class TypeOfInterestController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'image' => 'required',
-            'description' => 'required'
+            // 'description' => 'required'
         ]);
 
         $is_data = Type_of_interest::find($id);
@@ -174,7 +176,7 @@ class TypeOfInterestController extends Controller
             $is_data->id_parent = $request->input('id_parent');
         }
         $is_data->name = $request->input('name');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->description = $request->input('description');
         $is_data->save();
 

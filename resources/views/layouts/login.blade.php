@@ -13,13 +13,13 @@
 		<meta property="og:url" content="//sipayu.indramayukab.go.id" />
 		<meta property="og:site_name" content="SIPAYU" />
 		<link rel="canonical" href="//sipayu.indramayukab.go.id" />
-		<link rel="shortcut icon" href="{{ url('public/images/sipayu-ori-logo.png') }}" />
+		<link rel="shortcut icon" href="{{ url('images/sipayu-ori-logo.png') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="{{ url('public/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ url('public/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
@@ -59,7 +59,7 @@
 						<div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
 							<!--begin::Logo-->
 							<a href="javascript:void(0)" class="py-2 py-lg-20">
-								<img alt="Logo" src="{{ url('public/images/main.png') }}" class="h-40px h-lg-550px" />
+								<img alt="Logo" src="{{ url('images/main.png') }}" class="h-40px h-lg-550px" />
 							</a>
 							<!--end::Logo-->
 							<!--begin::Title-->
@@ -72,7 +72,7 @@
 						</div>
 						<!--end::Header-->
 						<!--begin::Illustration-->
-						<div class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(public/assets/media/illustrations/sketchy-1/17.png)"></div>
+						<div class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(assets/media/illustrations/sketchy-1/17.png)"></div>
 						<!--end::Illustration-->
 					</div>
 					<!--end::Wrapper-->
@@ -90,7 +90,7 @@
 								<div class="text-center mb-10">
 									<!--begin::Title-->
 									<a href="javascript:void(0)" class="py-2 py-lg-20">
-										<img alt="Logo" src="{{ url('public/images/sipayu-ori.png') }}" class="h-40px h-lg-250px" />
+										<img alt="Logo" src="{{ url('images/sipayu-ori.png') }}" class="h-40px h-lg-250px" />
 									</a>
 									<!--end::Title-->
 								</div>
@@ -113,7 +113,7 @@
 										<label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
 										<!--end::Label-->
 										<!--begin::Link-->
-										<a href="../dist/authentication/sign-in/password-reset.html" class="link-danger fs-6 fw-bold">Forgot Password ?</a>
+										<a href="forgot_password" class="link-danger fs-6 fw-bold">Lupa Password?</a>
 										<!--end::Link-->
 									</div>
 									<!--end::Wrapper-->
@@ -126,8 +126,8 @@
 								<div class="text-center">
 									<!--begin::Submit button-->
 									<button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-danger w-100 mb-5">
-										<span class="indicator-label">Continue</span>
-										<span class="indicator-progress">Please wait...
+										<span class="indicator-label">Submit</span>
+										<span class="indicator-progress">Mohon tunggu...
 										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 									</button>
 									<!--end::Submit button-->
@@ -143,7 +143,7 @@
 					<div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
 						<!--begin::Links-->
 						<div class="d-flex flex-center fw-semibold fs-6">
-							<a href="#" class="text-muted text-hover-danger px-2" target="_blank">Gincu Media Telematika</a>
+							<a href="#" class="text-muted text-hover-danger px-2" target="_blank">Dinas Pariwisata, Pemuda dan Olahraga Kab. Indramayu | Gincu Media Telematika</a>
 						</div>
 						<!--end::Links-->
 					</div>
@@ -160,14 +160,14 @@
 			var baseUrl = "{{ url('') }}";
 		</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="{{ url('public/assets/plugins/global/plugins.bundle.js') }}"></script>
-		<script src="{{ url('public/assets/js/scripts.bundle.js') }}"></script>
+		<script src="{{ url('assets/plugins/global/plugins.bundle.js') }}"></script>
+		<script src="{{ url('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script>
 			var baseUrlApi = '';//window.location.hostname; //!= 'sipayu.indramayukab.go.id' ? `http://${window.location.hostname}:9090/public` : `//be-sipayu.indramayukab.go.id/public`;
 		</script>
-		<script src="{{ url('public/assets/js/custom/authentication/sign-in/general.js') }}"></script>
+		<script src="{{ url('assets/js/custom/authentication/sign-in/general.js') }}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

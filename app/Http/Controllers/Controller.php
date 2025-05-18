@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+// use Illuminate\Support\Str;
+// use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
 
     /**
      * Get the token array structure.
@@ -46,5 +49,77 @@ class Controller extends BaseController
     function public_path($path=null)
     {
         return rtrim(app()->basePath('public/'.$path), '/');
+    }
+
+    public function rulesImage()
+    {
+        // 'dokumen' => 'required|max:10240|mimes:doc,docx,xlsx,xls,ppt,pptx,pdf,zip,png,jpg,jpeg,svg',
+        $rules = [
+            'image' => 'mimes:png,jpg,jpeg,svg',
+        ];
+
+        return $rules;
+    }
+
+    public function uploadToStorageMinio($image = "")
+    {
+        // Pastikan variabel $image berisi string base64 (misalnya "data:image/png;base64,iVBORw0KGgo...")
+        if ($image != "") {
+            // --- Proses string Base64 ---
+            // Contoh format: data:image/png;base64,.....
+            $base64_string = $image;
+        
+            // Pisahkan metadata MIME dan data base64
+            // Hilangkan "data:" dari awal string, kemudian pisahkan berdasarkan koma
+            $splited = explode(',', substr($base64_string, 5), 2);
+            $mime = $splited[0]; // misalnya "image/png;base64"
+            $mime_parts = explode(';', $mime, 2);
+            $mime_full = $mime_parts[0]; // misalnya "image/png"
+            $mime_split = explode('/', $mime_full, 2);
+            $file_type = isset($mime_split[1]) ? $mime_split[1] : 'png'; // default png jika tidak ada
+        
+            // Buat nama file unik berdasarkan timestamp
+            $file_name = date("YmdHis") . "." . $file_type;
+        
+            // --- Upload file ke MinIO ---
+            $disk = Storage::disk('minio');
+            // Tentukan path pada bucket MinIO (misal, simpan di folder "storage")
+            // $minioPath = 'storage/' . $file_name;
+            $minioPath = $file_name;
+        
+            // Decode string base64 dan simpan langsung ke MinIO
+            $fileContents = base64_decode($splited[1]);
+            $uploadSuccess = $disk->put($minioPath, $fileContents);
+        
+            if ($uploadSuccess) {
+                /*
+                // Opsi 1: Menghasilkan Presigned URL (dengan masa berlaku, misal 7 hari).
+                // Catatan: Presigned URL selalu memiliki masa expired.
+                $adapter = $disk->getAdapter();
+                $client = $adapter->getClient();
+                $bucket = Config::get('filesystems.disks.minio.bucket');
+                $command = $client->getCommand('GetObject', [
+                    'Bucket' => $bucket,
+                    'Key'    => $minioPath,
+                ]);
+                // Set expired hingga 7 hari (maksimum untuk AWS Signature V4)
+                $expiration = '+7 days';
+                $request = $client->createPresignedRequest($command, $expiration);
+                $url = (string) $request->getUri();
+                */
+        
+                // Opsi 2: Mengembalikan URL permanen (tanpa expired) dengan asumsi bucket/objek sudah diatur agar bersifat publik.
+                // Pastikan bucket MinIO Anda diatur untuk akses publik (ACL: public-read).
+                $minioEndpoint = rtrim(Config::get('filesystems.disks.minio.endpoint'), '/');
+                $bucket = Config::get('filesystems.disks.minio.bucket');
+                // Hasil URL misal: https://minio.example.com/nama_bucket/storage/20250206123456.png
+                $url = $minioEndpoint . '/' . $bucket . '/' . $minioPath;
+        
+                return $url;
+            } else {
+                return response()->json(['error' => 'Gagal mengupload file'], 500);
+            }
+        }
+        return null;
     }
 }

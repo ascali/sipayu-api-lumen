@@ -23,6 +23,10 @@ $router->get('/login', function () use ($router) {
     return view('layouts.login', ["title" => "Login"]);
 });
 
+$router->get('/forgot_password', function () use ($router) {
+    return view('layouts.forgot_password', ["title" => "Forgot Password"]);
+});
+
 $router->get('/reset_password', function () use ($router) {
     return view('layouts.reset_password', ["title" => "Reset Password"]);
 });
@@ -140,7 +144,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
     $router->post('reset-password', 'AuthController@resetPassword');
-    $router->get('forgot', 'AuthController@forgot');
+    $router->post('forgot', 'AuthController@forgot');
     $router->get('me', 'AuthController@me');
 
     $router->group(['prefix' => 'users'], function () use ($router) {

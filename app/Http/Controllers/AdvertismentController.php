@@ -19,9 +19,9 @@ class AdvertismentController extends Controller
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
 
-        if ($request->input('page')!='' && $request->input('limit')!='') {
-            $is_data = Advertisment::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        }
+        // if ($request->input('page')!='' && $request->input('limit')!='') {
+        // }
+        $is_data = Advertisment::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
         // $is_data = Advertisment::all();
         return $this->jsonResponse(
             true,
@@ -107,7 +107,7 @@ class AdvertismentController extends Controller
         $is_data = new Advertisment();
         $is_data->name = $request->input('name');
         $is_data->type = $request->input('type');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
         $is_data->efective = $request->input('efective');
@@ -159,7 +159,7 @@ class AdvertismentController extends Controller
         $is_data = Advertisment::find($id);
         $is_data->name = $request->input('name');
         $is_data->type = $request->input('type');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->url = $request->input('url');
         $is_data->description = $request->input('description');
         $is_data->efective = $request->input('efective');

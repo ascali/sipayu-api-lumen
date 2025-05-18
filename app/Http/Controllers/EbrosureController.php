@@ -19,9 +19,9 @@ class EbrosureController extends Controller
         $page = $request->input('page') != '' ? $request->input('page') : 1;
         $limit = $request->input('limit') != '' ? $request->input('limit') : 5;
 
-        if ($request->input('page')!='' && $request->input('limit')!='') {
+        // if ($request->input('page')!='' && $request->input('limit')!='') {
             $is_data = E_brosure::orderBy('efective', 'asc')->limit($limit)->offset(($page - 1) * $limit)->get()->toArray();
-        }
+        // }
         // $is_data = E_brosure::all();
         return $this->jsonResponse(
             true,
@@ -88,7 +88,7 @@ class EbrosureController extends Controller
         $is_data = new E_brosure();
         $is_data->name = $request->input('name');
         $is_data->description = $request->input('description');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->efective = $request->input('efective');
         $is_data->expired = $request->input('expired');
         $is_data->latitude = $request->input('latitude');
@@ -127,7 +127,7 @@ class EbrosureController extends Controller
         $is_data = E_brosure::find($id);
         $is_data->name = $request->input('name');
         $is_data->description = $request->input('description');
-        $is_data->image = $this->uploadToStorage($request->input('image'));
+        $is_data->image = $this->uploadToStorageMinio($request->input('image'));
         $is_data->efective = $request->input('efective');
         $is_data->expired = $request->input('expired');
         $is_data->latitude = $request->input('latitude');
