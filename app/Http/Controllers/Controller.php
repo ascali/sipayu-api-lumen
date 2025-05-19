@@ -88,36 +88,38 @@ class Controller extends BaseController
             $minioPath = $file_name;
         
             // Decode string base64 dan simpan langsung ke MinIO
-            $fileContents = base64_decode($splited[1]);
-            $uploadSuccess = $disk->put($minioPath, $fileContents);
-        
-            if ($uploadSuccess) {
-                /*
-                // Opsi 1: Menghasilkan Presigned URL (dengan masa berlaku, misal 7 hari).
-                // Catatan: Presigned URL selalu memiliki masa expired.
-                $adapter = $disk->getAdapter();
-                $client = $adapter->getClient();
-                $bucket = Config::get('filesystems.disks.minio.bucket');
-                $command = $client->getCommand('GetObject', [
-                    'Bucket' => $bucket,
-                    'Key'    => $minioPath,
-                ]);
-                // Set expired hingga 7 hari (maksimum untuk AWS Signature V4)
-                $expiration = '+7 days';
-                $request = $client->createPresignedRequest($command, $expiration);
-                $url = (string) $request->getUri();
-                */
-        
-                // Opsi 2: Mengembalikan URL permanen (tanpa expired) dengan asumsi bucket/objek sudah diatur agar bersifat publik.
-                // Pastikan bucket MinIO Anda diatur untuk akses publik (ACL: public-read).
-                $minioEndpoint = rtrim(Config::get('filesystems.disks.minio.endpoint'), '/');
-                $bucket = Config::get('filesystems.disks.minio.bucket');
-                // Hasil URL misal: https://minio.example.com/nama_bucket/storage/20250206123456.png
-                $url = $minioEndpoint . '/' . $bucket . '/' . $minioPath;
-        
-                return $url;
-            } else {
-                return response()->json(['error' => 'Gagal mengupload file'], 500);
+            if(isset($splited[1])) {
+                $fileContents = base64_decode($splited[1]);
+                $uploadSuccess = $disk->put($minioPath, $fileContents);
+            
+                if ($uploadSuccess) {
+                    /*
+                    // Opsi 1: Menghasilkan Presigned URL (dengan masa berlaku, misal 7 hari).
+                    // Catatan: Presigned URL selalu memiliki masa expired.
+                    $adapter = $disk->getAdapter();
+                    $client = $adapter->getClient();
+                    $bucket = Config::get('filesystems.disks.minio.bucket');
+                    $command = $client->getCommand('GetObject', [
+                        'Bucket' => $bucket,
+                        'Key'    => $minioPath,
+                    ]);
+                    // Set expired hingga 7 hari (maksimum untuk AWS Signature V4)
+                    $expiration = '+7 days';
+                    $request = $client->createPresignedRequest($command, $expiration);
+                    $url = (string) $request->getUri();
+                    */
+            
+                    // Opsi 2: Mengembalikan URL permanen (tanpa expired) dengan asumsi bucket/objek sudah diatur agar bersifat publik.
+                    // Pastikan bucket MinIO Anda diatur untuk akses publik (ACL: public-read).
+                    $minioEndpoint = rtrim(Config::get('filesystems.disks.minio.endpoint'), '/');
+                    $bucket = Config::get('filesystems.disks.minio.bucket');
+                    // Hasil URL misal: https://minio.example.com/nama_bucket/storage/20250206123456.png
+                    $url = $minioEndpoint . '/' . $bucket . '/' . $minioPath;
+            
+                    return $url;
+                } else {
+                    return response()->json(['error' => 'Gagal mengupload file'], 500);
+                }
             }
         }
         return null;

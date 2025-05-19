@@ -358,12 +358,15 @@
 						  images += `<div class="col-md-4">
 							  <img id="ads-img-thumbnail" src="${element}" class="img-thumbnail mx-auto d-block" alt="...">
 						  </div>`;
+						  
+						  imageUrlToBase64(rmPub(data.image)).then((img) => multipleImages.push(img));
 					  }
 				  }
 				  $("#allImages").html(images);
 
 				} else {
-					$("#imageBase64").val(rmPub(data.image));
+					// $("#imageBase64").val(rmPub(data.image));
+					imageUrlToBase64(rmPub(data.image)).then((img) => multipleImages.push(img));
 					// $("#ads-img-thumbnail").attr("src", `${rmPub(data.image)}`);
 					$("#allImages").html(`<img id="ads-img-thumbnail" src="${rmPub(data.image)}" class="img-thumbnail mx-auto d-block" alt="...">`);
 				}
@@ -493,6 +496,7 @@
 				.catch((error) => {
 					swalFailed();
 				});
+				multipleImages = [];
 			} else {
 				await swalWithBootstrapButtons.fire({
 					title: "Galat!",
@@ -663,6 +667,20 @@
 			const x_size = (image.length * (3 / 4)) - y
 			return Math.round(x_size / 1024)
 		}
+		
+		const imageUrlToBase64 = async (url) => {
+			const data = await fetch(url);
+			const blob = await data.blob();
+			return new Promise((resolve, reject) => {
+			  const reader = new FileReader();
+			  reader.readAsDataURL(blob);
+			  reader.onloadend = () => {
+				const base64data = reader.result;
+				resolve(base64data);
+			  };
+			  reader.onerror = reject;
+			});
+		};
     </script>
 
 	@include('layouts.scrolltop')

@@ -238,7 +238,7 @@
 			  await getToI(data.id_parent);
 			  $("#id_parent").val(data.id_parent).trigger("change");
 			  $("#name").val(data.name);
-			  $("#imageBase64").val(rmPub(data.image));
+			  imageUrlToBase64(rmPub(data.image)).then((img) => $("#imageBase64").val(img));
 			  $("#ads-img-thumbnail").attr("src", `${rmPub(data.image)}`);
 			  $("#description").val(data.description);
 			})
@@ -467,6 +467,20 @@
 			}
 			$("#id_parent").html(dom);
 		}
+		
+		const imageUrlToBase64 = async (url) => {
+			const data = await fetch(url);
+			const blob = await data.blob();
+			return new Promise((resolve, reject) => {
+			  const reader = new FileReader();
+			  reader.readAsDataURL(blob);
+			  reader.onloadend = () => {
+				const base64data = reader.result;
+				resolve(base64data);
+			  };
+			  reader.onerror = reject;
+			});
+		};
 
     </script>
 

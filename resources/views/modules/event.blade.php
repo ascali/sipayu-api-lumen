@@ -253,8 +253,9 @@
 			  let data = response.data.data;
 			  $("#name").val(data.name);
 			  $("#date_event").val(data.date_event);
-			  $("#imageBase64").val(rmPub(data.image));
+			  imageUrlToBase64(rmPub(data.image)).then((img) => $("#imageBase64").val(img));
 			  $("#ads-img-thumbnail").attr("src", `${rmPub(data.image)}`);
+
 			  $("#location").val(data.location);
 			  $("#description").val(data.description);
 			  $("#latitude").val(data.latitude);
@@ -465,6 +466,20 @@
 			const x_size = (image.length * (3 / 4)) - y
 			return Math.round(x_size / 1024)
 		}
+
+		const imageUrlToBase64 = async (url) => {
+			const data = await fetch(url);
+			const blob = await data.blob();
+			return new Promise((resolve, reject) => {
+			  const reader = new FileReader();
+			  reader.readAsDataURL(blob);
+			  reader.onloadend = () => {
+				const base64data = reader.result;
+				resolve(base64data);
+			  };
+			  reader.onerror = reject;
+			});
+		};
     </script>
 
 	@include('layouts.scrolltop')
