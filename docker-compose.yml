@@ -8,11 +8,11 @@ services:
     image: sipayu-app:latest
     container_name: sipayu-app
     ports:
-      - "9090:80"
+      - "9091:80"
     environment:
       - APP_ENV=production
     volumes:
-      - .:/app
+      - .:/var/www/html
       - sipayu_vendor:/var/www/html/vendor
     restart: unless-stopped
     command: ["frankenphp", "run", "-c", "caddy/Caddyfile"]
