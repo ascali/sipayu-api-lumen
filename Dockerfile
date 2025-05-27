@@ -70,5 +70,5 @@ COPY php.ini /usr/local/etc/php/conf.d/php.ini
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 
-EXPOSE 80/tcp
+EXPOSE 9090/tcp
 ENTRYPOINT ["frankenphp", "run", "-c", "caddy/Caddyfile"]
