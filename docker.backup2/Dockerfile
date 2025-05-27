@@ -1,5 +1,5 @@
-# Use official frankenPHP image 
-FROM dunglas/frankenphp:php8.2
+# Use official PHP image with Apache
+FROM php:8.2-apache
 
 USER root
 
@@ -50,6 +50,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+# Configure Apache
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite ssl # Enable SSL module
+    
+RUN mkdir -p /etc/ssl/certs && apt-get install --reinstall ca-certificates && update-ca-certificates
+
 # Set working directory
 WORKDIR /var/www/html
 
@@ -66,9 +72,17 @@ RUN chown -R www-data:www-data /var/www/html \
 # Copy PHP configuration file for SMTP
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
+# Copy auto-renew script
+COPY renew-certs.sh /usr/local/bin/renew-certs.sh
+RUN chmod +x /usr/local/bin/renew-certs.sh
+
+# Add cron job for auto-renew
+RUN echo "0 0 * * * /usr/local/bin/renew-certs.sh" | crontab -
+
+# Copy msmtp configuration
+COPY msmtprc /etc/msmtprc
+RUN chmod 600 /etc/msmtprc
+
 # Environment variables
 ENV APP_ENV=production
 ENV APP_DEBUG=false
-
-EXPOSE 80/tcp
-ENTRYPOINT ["frankenphp", "run", "-c", "caddy/Caddyfile"]
